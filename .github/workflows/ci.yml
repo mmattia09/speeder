@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-and-build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Toolchain
+        run: swift --version
+      - name: Tests
+        run: swift test
+      - name: Build app
+        run: Scripts/build-app.sh
+      - name: Verify bundle
+        run: |
+          plutil -lint dist/Speeder.app/Contents/Info.plist
+          codesign --verify --strict dist/Speeder.app
+      - name: Package app
+        run: ditto -c -k --sequesterRsrc --keepParent dist/Speeder.app dist/Speeder.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Speeder-macOS
+          path: dist/Speeder.zip
