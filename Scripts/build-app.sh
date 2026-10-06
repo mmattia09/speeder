@@ -61,4 +61,4 @@ codesign --force --sign - "$APP" >/dev/null 2>&1 || \
     echo "warning: ad-hoc signing failed; the app still runs but macOS may re-prompt for permissions" >&2
 
 echo "Built $APP"
-echo "Grant Accessibility access there, or from the app's menu: Open Accessibility Settings…"
+echo "Open the app for onboarding, or enable Accessibility from Settings."

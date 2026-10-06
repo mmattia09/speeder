@@ -10,6 +10,10 @@ clock as a small spider, counts keystrokes while you write — in any app — an
 turns them into words per minute, live and just after you stop. Open it for the
 rest: current burst, session average, peak, and history.
 
+![Speeder session window](Docs/session.png)
+
+*Session window with example statistics. Light and dark appearance follow macOS.*
+
 ## What it measures
 
 - **Current** — estimated words per minute over a 5 second sliding window (5
@@ -30,8 +34,8 @@ IME output.
 ## Requirements
 
 macOS 13 or later; Swift 6 or later to build. Speeder needs **Accessibility** permission to see your
-keystrokes: the first launch asks for it, and you can also flip the switch from
-the menu with *Open Accessibility Settings…*. Key events are inspected only to classify typing, separators and deletions.
+keystrokes: the first-launch introduction explains it, and you can also flip the switch from
+Settings with *Accessibility Settings…*. Key events are inspected only to classify typing, separators and deletions.
 Their text is immediately discarded: only recent timings, numeric deltas and
 session statistics stay in memory. No files, network requests or telemetry.
 Quitting clears the session.
@@ -51,11 +55,22 @@ works too.
 
 ## Use
 
-Click the spider in the menu bar to open the panel: current rate with a
-sparkline of up to 180 samples collected while typing, burst, average, peak, word and keystroke
-counts, and how long you have been typing. From the same menu you can reset the
-session, copy the summary to the clipboard, open the Accessibility settings, or
-quit (⌘Q).
+Click the small, monochrome spider for a compact popover: current pace, a recent
+sparkline, average, peak and word count. Pause or resume capture with one click.
+
+**Explore your session** opens a resizable window with a time-based speed graph,
+a WPM goal reference, burst and session metrics, and progress toward your goal.
+Copy the statistics or reset the session from the bottom of this window. Reset
+asks for confirmation. Closing the window keeps Speeder in the menu bar.
+
+**Settings** (the gear, or ⌘,) lets you hide the menu-bar number, turn spider
+animation off, and choose a goal from 10 to 200 WPM. These preferences persist;
+typing statistics still stay in memory only. Animation respects Reduce Motion.
+
+On first launch, a three-step introduction explains how Speeder works before
+offering Accessibility access. You can skip permission setup and return to it
+later, or replay the introduction from Settings. Quit with the popover's Quit
+button or ⌘Q while the app window is active.
 
 ## Development
 
@@ -93,9 +108,20 @@ history sampling, long sessions, clock changes and key classification.
   the rebuilt app and relaunch it. Keep the app in a stable location.
 - **Password fields:** macOS Secure Input can prevent global capture. Speeder
   does not bypass it.
-- **History and averages:** history samples are collected during typing, so its
-  horizontal axis is samples, not wall-clock time. Average counts completed words;
+- **History and averages:** history samples are collected during typing; the graph uses their
+  actual timestamps, so gaps between bursts appear on the time axis. Average counts completed words;
   Current uses five characters per word and subtracts deletions. They can differ.
+
+### Interface previews
+
+```sh
+swift run Speeder --render-previews /tmp/speeder-previews
+```
+
+Debug builds can export the actual SwiftUI views in light and dark appearance,
+using synthetic statistics and isolated preferences, without starting capture.
+This includes the popover, session, settings, introduction and an empty session
+at the minimum window size. The export option is absent from release builds.
 
 ## Contributing
 

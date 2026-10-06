@@ -1,149 +1,62 @@
 import SpeederCore
 import SwiftUI
 
-/// The popover shown when clicking the status item: current burst, session
-/// average, peak and a sparkline of the live speed.
 struct StatsPanelView: View {
     @ObservedObject var store: SpeedStore
-
-    private let panelWidth: CGFloat = 268
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            header
-            SparklineView(points: store.history, tint: sparklineTint)
-                .frame(height: 46)
-            Divider()
-            grid
-            footer
-        }
-        .padding(14)
-        .frame(width: panelWidth)
-    }
-
-    private var header: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 6) {
-            Text("\(WPMFormatter.string(store.stats.currentWPM))")
-                .font(.system(size: 30, weight: .semibold, design: .rounded))
-                .monospacedDigit()
-                .foregroundStyle(sparklineTint)
-                .contentTransition(.numericText())
-            Text("wpm")
-                .font(.system(size: 12, weight: .medium))
-                .foregroundStyle(.secondary)
-            Spacer(minLength: 0)
-            Text(store.stats.isTyping ? "typing" : "paused")
-                .font(.system(size: 10, weight: .medium))
-                .padding(.horizontal, 6)
-                .padding(.vertical, 2)
-                .background(Capsule().fill(store.stats.isTyping ? sparklineTint.opacity(0.2) : Color.secondary.opacity(0.15)))
-                .foregroundStyle(store.stats.isTyping ? sparklineTint : .secondary)
-        }
-    }
-
-    private var grid: some View {
-        Grid(alignment: .leading, horizontalSpacing: 14, verticalSpacing: 4) {
-            GridRow {
-                metric("Burst", "\(WPMFormatter.string(store.stats.burstWPM))")
-                metric("Average", "\(WPMFormatter.string(store.stats.averageWPM))")
-            }
-            GridRow {
-                metric("Peak", "\(WPMFormatter.string(store.stats.peakWPM))")
-                metric("Words", "\(store.stats.totalWords)")
-            }
-            GridRow {
-                metric("Keystrokes", "\(store.stats.totalKeystrokes)")
-                metric("Active", WPMFormatter.duration(store.stats.activeDuration))
-            }
-        }
-    }
-
-    private var footer: some View {
-        HStack(spacing: 6) {
-            if !store.isAuthorized {
-                Label("Accessibility access needed", systemImage: "exclamationmark.triangle.fill")
-                    .font(.system(size: 10))
-                    .foregroundStyle(.orange)
-            } else if !store.isMonitoring {
-                Label("Not capturing keystrokes", systemImage: "exclamationmark.triangle.fill")
-                    .font(.system(size: 10))
-                    .foregroundStyle(.orange)
-            } else {
-                Text("Global keystroke capture on")
-                    .font(.system(size: 10))
-                    .foregroundStyle(.secondary)
-            }
-            Spacer(minLength: 0)
-        }
-    }
-
-    private func metric(_ title: String, _ value: String) -> some View {
-        HStack(spacing: 5) {
-            Text(title)
-                .font(.system(size: 11))
-                .foregroundStyle(.secondary)
-            Text(value)
-                .font(.system(size: 11, weight: .medium, design: .rounded))
-                .monospacedDigit()
-            Spacer(minLength: 0)
-        }
-        .frame(width: 118, alignment: .leading)
-    }
-
-    private var sparklineTint: Color {
-        switch WPMFormatter.Tier.tier(for: store.stats.currentWPM, isTyping: store.stats.isTyping) {
-        case .idle: return .secondary
-        case .slow: return .blue
-        case .steady: return .green
-        case .brisk: return .orange
-        case .fast: return .red
-        }
-    }
-}
-
-private struct SparklineView: View {
-    let points: [WPMHistoryPoint]
-    let tint: Color
+    var openDashboard: () -> Void
+    var openSettings: () -> Void
 
     var body: some View {
-        GeometryReader { geo in
-            let size = geo.size
-            let values = points.map(\.wpm)
-            let maximum = max(values.max() ?? 0, 20)
-            let denominator = max(points.count - 1, 1)
-
-            ZStack {
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(Color.secondary.opacity(0.08))
-
-                if points.count > 1 {
-                    Path { path in
-                        for (index, point) in points.enumerated() {
-                            let x = size.width * CGFloat(index) / CGFloat(denominator)
-                            let y = size.height * (1 - CGFloat(point.wpm / maximum))
-                            if index == 0 {
-                                path.move(to: CGPoint(x: x, y: y))
-                            } else {
-                                path.addLine(to: CGPoint(x: x, y: y))
-                            }
-                        }
-                    }
-                    .stroke(tint, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
-
-                    if let last = points.last {
-                        let x = size.width
-                        let y = size.height * (1 - CGFloat(last.wpm / maximum))
-                        Circle()
-                            .fill(tint)
-                            .frame(width: 3, height: 3)
-                            .position(x: x, y: y)
-                    }
-                } else {
-                    Text("No typing yet")
-                        .font(.system(size: 10))
-                        .foregroundStyle(.secondary)
+        VStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 18) {
+                HStack {
+                    Text("SPEEDER").font(.system(size: 10, weight: .semibold)).tracking(2).foregroundStyle(.secondary)
+                    Spacer()
+                    CaptureIndicator(store: store)
                 }
-            }
-        }
+                HStack(alignment: .firstTextBaseline, spacing: 7) {
+                    Text(WPMFormatter.string(store.stats.currentWPM))
+                        .font(.system(size: 48, weight: .light, design: .rounded)).monospacedDigit()
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("words / min").font(.system(size: 11, weight: .medium))
+                        Text(store.stats.isTyping && !store.isPaused ? "Current pace" : "Last pace").font(.system(size: 10)).foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    Button(action: store.togglePaused) {
+                        Image(systemName: store.isPaused ? "play.fill" : "pause.fill").frame(width: 26, height: 26)
+                    }.buttonStyle(.borderless).foregroundStyle(.secondary)
+                        .help(store.isPaused ? "Resume tracking" : "Pause tracking")
+                        .accessibilityLabel(store.isPaused ? "Resume tracking" : "Pause tracking")
+                }
+                SpeedChart(points: store.history, compact: true).frame(height: 64)
+                HStack(spacing: 14) {
+                    MetricView(title: "Average", value: WPMFormatter.string(store.stats.averageWPM))
+                    MetricView(title: "Peak", value: WPMFormatter.string(store.stats.peakWPM))
+                    MetricView(title: "Words", value: "\(store.stats.totalWords)")
+                }
+                if !store.isAuthorized {
+                    Button(action: store.requestAccess) {
+                        Label("Enable Accessibility to start", systemImage: "lock.open")
+                            .font(.system(size: 11))
+                    }.buttonStyle(.borderless).foregroundStyle(Color.speederAccent)
+                }
+                Button(action: openDashboard) {
+                    HStack {
+                        Text("Explore your session").fontWeight(.medium)
+                        Spacer()
+                        Image(systemName: "arrow.up.right")
+                    }.font(.system(size: 12)).padding(11)
+                        .background(Color.speederAccent.opacity(0.12), in: RoundedRectangle(cornerRadius: 9))
+                }.buttonStyle(.plain).foregroundStyle(Color.speederAccent)
+            }.padding(20)
+            Divider()
+            HStack {
+                Button(action: openSettings) { Image(systemName: "gearshape").frame(width: 24, height: 24) }
+                    .help("Settings").accessibilityLabel("Settings")
+                Text("Only on this Mac").font(.system(size: 10)).foregroundStyle(.secondary)
+                Spacer()
+                Button("Quit") { NSApp.terminate(nil) }.font(.system(size: 11))
+            }.buttonStyle(.borderless).foregroundStyle(.secondary).padding(.horizontal, 16).padding(.vertical, 8)
+        }.frame(width: 310)
     }
 }
