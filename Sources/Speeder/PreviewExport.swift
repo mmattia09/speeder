@@ -23,6 +23,10 @@ enum PreviewExport {
         }
         let store = SpeedStore(session: session, preferences: preferences)
         store.updateSnapshot()
+        let mainWindow = MainWindowController(store: store)
+        let statusItem = StatusItemController(store: store, mainWindow: mainWindow)
+        statusItem.install()
+        try statusItem.validatePopoverBounds()
         let route = WindowRoute()
         for scheme in [ColorScheme.light, .dark] {
             let suffix = scheme == .light ? "light" : "dark"

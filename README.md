@@ -42,6 +42,14 @@ Quitting clears the session.
 
 ## Install
 
+Download **Speeder-0.1.0-macos-universal.zip** from the
+[latest release](https://github.com/mmattia09/speeder/releases/latest), unzip it,
+and move Speeder.app to Applications. It runs on Apple Silicon and Intel Macs
+with macOS 13 or later. The app is ad-hoc signed and not notarized, so Gatekeeper
+may warn when you first open it.
+
+Or build from source:
+
 ```sh
 git clone https://github.com/mmattia09/speeder.git
 cd speeder
@@ -79,6 +87,7 @@ swift build                   # build everything
 Scripts/test.sh               # run metrics and key-classification tests
 swift run Speeder             # run the app from the command line
 Scripts/build-app.sh          # assemble dist/Speeder.app
+Scripts/build-app.sh release universal # Apple Silicon + Intel release bundle
 ```
 
 With full Xcode, `swift test` works directly. `Scripts/test.sh` also supports

@@ -5,6 +5,7 @@ struct StatsPanelView: View {
     @ObservedObject var store: SpeedStore
     var openDashboard: () -> Void
     var openSettings: () -> Void
+    var width: CGFloat = 310
 
     var body: some View {
         VStack(spacing: 0) {
@@ -57,6 +58,6 @@ struct StatsPanelView: View {
                 Spacer()
                 Button("Quit") { NSApp.terminate(nil) }.font(.system(size: 11))
             }.buttonStyle(.borderless).foregroundStyle(.secondary).padding(.horizontal, 16).padding(.vertical, 8)
-        }.frame(width: 310)
+        }.frame(width: width)
     }
 }

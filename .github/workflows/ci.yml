@@ -20,11 +20,12 @@ jobs:
       - name: Tests
         run: swift test
       - name: Build app
-        run: Scripts/build-app.sh
+        run: Scripts/build-app.sh release universal
       - name: Verify bundle
         run: |
           plutil -lint dist/Speeder.app/Contents/Info.plist
           codesign --verify --strict dist/Speeder.app
+          lipo dist/Speeder.app/Contents/MacOS/Speeder -verify_arch arm64 x86_64
       - name: Package app
         run: ditto -c -k --sequesterRsrc --keepParent dist/Speeder.app dist/Speeder.zip
       - uses: actions/upload-artifact@v4
