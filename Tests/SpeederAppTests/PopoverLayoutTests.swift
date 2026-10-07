@@ -4,6 +4,12 @@ import Testing
 
 @Suite("Popover screen bounds")
 struct PopoverLayoutTests {
+    @Test func compactContentDoesNotLeaveEmptyFooterSpace() {
+        let size = PopoverLayout.contentSize(visibleFrame: CGRect(x: 0, y: 0, width: 1440, height: 850),
+                                             anchor: CGRect(x: 1000, y: 850, width: 40, height: 24), idealHeight: 302)
+        #expect(size.height == 302)
+    }
+
     @Test func standardDisplay() {
         let size = PopoverLayout.contentSize(visibleFrame: CGRect(x: 0, y: 30, width: 1440, height: 850),
                                              anchor: CGRect(x: 1400, y: 880, width: 40, height: 24))

@@ -15,6 +15,11 @@ public enum WPMFormatter {
     /// Compact duration used in the detail panel, e.g. `4m 12s`.
     public static func duration(_ interval: TimeInterval) -> String {
         let total = Int(interval.rounded())
+        if total >= 3600 {
+            let hours = total / 3600
+            let minutes = (total % 3600) / 60
+            return minutes == 0 ? "\(hours)h" : "\(hours)h \(minutes)m"
+        }
         let minutes = total / 60
         let seconds = total % 60
         if minutes == 0 { return "\(seconds)s" }

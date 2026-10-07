@@ -51,11 +51,13 @@ public struct WPMHistoryPoint: Identifiable, Hashable, Sendable {
     public let id: UUID
     public let date: Date
     public let wpm: Double
+    public let segment: Int
 
-    public init(id: UUID = UUID(), date: Date, wpm: Double) {
+    public init(id: UUID = UUID(), date: Date, wpm: Double, segment: Int = 0) {
         self.id = id
         self.date = date
         self.wpm = wpm
+        self.segment = segment
     }
 }
 
@@ -131,6 +133,8 @@ public final class TypingSession {
     /// First keystroke of the run in progress: the live window never reaches back
     /// past it, so a pause does not drag dead time into the rate.
     private var burstStart: Date?
+    private var segment = 0
+    private var forceNewBurst = false
 
     public init(configuration: TypingSessionConfiguration = TypingSessionConfiguration()) {
         precondition(configuration.liveWindow.isFinite && configuration.liveWindow > 0)
@@ -154,12 +158,16 @@ public final class TypingSession {
         let date = max(date, lastKeystroke ?? date)
         if let previous = lastKeystroke {
             let gap = date.timeIntervalSince(previous)
-            if gap > configuration.pauseThreshold {
+            if gap > configuration.pauseThreshold || forceNewBurst {
+                segment += 1
+                lastHistoryDate = nil
+                forceNewBurst = false
                 burstPeak = 0
                 burstStart = date
             }
             activeDuration += min(gap, configuration.pauseThreshold)
         } else {
+            forceNewBurst = false
             sessionStart = date
             burstStart = date
         }
@@ -213,6 +221,11 @@ public final class TypingSession {
         )
     }
 
+    public func breakBurst() {
+        forceNewBurst = true
+        runningWordLength = 0
+    }
+
     public func reset() {
         events.removeAll(keepingCapacity: true)
         cumulativeDeltas = [0]
@@ -227,6 +240,8 @@ public final class TypingSession {
         sessionStart = nil
         lastKeystroke = nil
         burstStart = nil
+        segment = 0
+        forceNewBurst = false
     }
 
     private func appendEvent(at date: Date, delta: Double) {
@@ -248,7 +263,7 @@ public final class TypingSession {
             return
         }
         lastHistoryDate = date
-        history.append(WPMHistoryPoint(date: date, wpm: wpm))
+        history.append(WPMHistoryPoint(date: date, wpm: wpm, segment: segment))
         if history.count > configuration.historyCapacity {
             history.removeFirst(history.count - configuration.historyCapacity)
         }

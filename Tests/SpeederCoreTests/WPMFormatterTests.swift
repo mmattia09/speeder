@@ -20,6 +20,8 @@ struct WPMFormatterTests {
         #expect(WPMFormatter.duration(42) == "42s")
         #expect(WPMFormatter.duration(60) == "1m")
         #expect(WPMFormatter.duration(252) == "4m 12s")
+        #expect(WPMFormatter.duration(3600) == "1h")
+        #expect(WPMFormatter.duration(50000) == "13h 53m")
     }
 
     @Test("Tiers")

@@ -34,13 +34,17 @@ final class StatusItemController: NSObject {
         else {
             guard let window = button.window, let screen = window.screen else { return }
             let anchor = window.convertToScreen(button.convert(button.bounds, to: nil))
-            let size = PopoverLayout.contentSize(visibleFrame: screen.visibleFrame, anchor: anchor)
-            let content = ScrollView(.vertical) {
+            let width = PopoverLayout.contentSize(visibleFrame: screen.visibleFrame, anchor: anchor).width
+            let panel = ThemeView(preferences: store.preferences) {
                 StatsPanelView(store: store,
-                               openDashboard: { [weak self] in self?.open(.session) },
-                               openSettings: { [weak self] in self?.open(.settings) },
-                               width: size.width)
-            }.frame(width: size.width, height: size.height)
+                               openDashboard: { [weak self] in self?.open(.statistics) },
+                               openSettings: { [weak self] in self?.open(.settings) }, width: width)
+            }
+            let measuringView = NSHostingView(rootView: panel)
+            let size = PopoverLayout.contentSize(visibleFrame: screen.visibleFrame, anchor: anchor,
+                                                 idealHeight: ceil(measuringView.fittingSize.height))
+            let content = ScrollView(.vertical) { panel }
+                .frame(width: size.width, height: size.height)
             let hosting = NSHostingController(rootView: content)
             // SwiftUI's unconstrained ideal size must not resize the popover.
             hosting.sizingOptions = []
@@ -90,7 +94,7 @@ final class StatusItemController: NSObject {
         }
         button.imagePosition = store.preferences.showSpeed ? .imageLeading : .imageOnly
         button.font = NSFont.monospacedDigitSystemFont(ofSize: 13, weight: .medium)
-        button.title = store.preferences.showSpeed ? " \(WPMFormatter.string(stats.currentWPM))" : ""
+        button.title = store.preferences.showSpeed ? " \(WPMFormatter.string(store.menuBarWPM))" : ""
         button.toolTip = "Speeder · \(WPMFormatter.string(stats.currentWPM)) wpm · \(store.captureLabel)"
     }
 }

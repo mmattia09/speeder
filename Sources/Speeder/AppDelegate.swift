@@ -10,7 +10,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         NSApp.setActivationPolicy(.accessory)
         installApplicationMenu()
 
-        let store = SpeedStore()
+        let store: SpeedStore
+        do { store = SpeedStore(archive: try StatisticsArchive(url: StatisticsArchive.defaultURL)) }
+        catch {
+            store = SpeedStore()
+            store.storageError = "History is unavailable: \(error.localizedDescription)"
+        }
         self.store = store
 
         let mainWindow = MainWindowController(store: store)

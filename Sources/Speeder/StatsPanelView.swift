@@ -2,6 +2,7 @@ import SpeederCore
 import SwiftUI
 
 struct StatsPanelView: View {
+    @Environment(\.speederAccent) private var accent
     @ObservedObject var store: SpeedStore
     var openDashboard: () -> Void
     var openSettings: () -> Void
@@ -10,12 +11,7 @@ struct StatsPanelView: View {
     var body: some View {
         VStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 18) {
-                HStack {
-                    Text("SPEEDER").font(.system(size: 10, weight: .semibold)).tracking(2).foregroundStyle(.secondary)
-                    Spacer()
-                    CaptureIndicator(store: store)
-                }
-                HStack(alignment: .firstTextBaseline, spacing: 7) {
+                HStack(alignment: .center, spacing: 9) {
                     Text(WPMFormatter.string(store.stats.currentWPM))
                         .font(.system(size: 48, weight: .light, design: .rounded)).monospacedDigit()
                     VStack(alignment: .leading, spacing: 2) {
@@ -39,22 +35,21 @@ struct StatsPanelView: View {
                     Button(action: store.requestAccess) {
                         Label("Enable Accessibility to start", systemImage: "lock.open")
                             .font(.system(size: 11))
-                    }.buttonStyle(.borderless).foregroundStyle(Color.speederAccent)
+                    }.buttonStyle(.borderless).foregroundStyle(accent)
                 }
                 Button(action: openDashboard) {
                     HStack {
-                        Text("Explore your session").fontWeight(.medium)
+                        Text("More statistics").fontWeight(.medium)
                         Spacer()
                         Image(systemName: "arrow.up.right")
                     }.font(.system(size: 12)).padding(11)
-                        .background(Color.speederAccent.opacity(0.12), in: RoundedRectangle(cornerRadius: 9))
-                }.buttonStyle(.plain).foregroundStyle(Color.speederAccent)
+                        .background(accent.opacity(0.12), in: RoundedRectangle(cornerRadius: 9))
+                }.buttonStyle(.plain).foregroundStyle(accent)
             }.padding(20)
             Divider()
             HStack {
                 Button(action: openSettings) { Image(systemName: "gearshape").frame(width: 24, height: 24) }
                     .help("Settings").accessibilityLabel("Settings")
-                Text("Only on this Mac").font(.system(size: 10)).foregroundStyle(.secondary)
                 Spacer()
                 Button("Quit") { NSApp.terminate(nil) }.font(.system(size: 11))
             }.buttonStyle(.borderless).foregroundStyle(.secondary).padding(.horizontal, 16).padding(.vertical, 8)

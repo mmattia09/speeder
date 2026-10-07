@@ -17,12 +17,14 @@ struct AppPreferencesTests {
         #expect(!settings.onboardingComplete)
         settings.showSpeed = false
         settings.animateSpider = false
+        settings.accentHex = "3478F6"
         settings.goal = 85
         settings.onboardingComplete = true
         let restored = AppPreferences(defaults: defaults)
         #expect(!restored.showSpeed)
         #expect(!restored.animateSpider)
         #expect(restored.goal == 85)
+        #expect(restored.accentHex == "3478F6")
         #expect(restored.onboardingComplete)
     }
 

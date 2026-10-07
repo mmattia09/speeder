@@ -2,10 +2,6 @@ import Charts
 import SpeederCore
 import SwiftUI
 
-extension Color {
-    static let speederAccent = Color(red: 0.12, green: 0.62, blue: 0.49)
-}
-
 struct Surface<Content: View>: View {
     @ViewBuilder var content: Content
     var body: some View {
@@ -16,10 +12,11 @@ struct Surface<Content: View>: View {
 }
 
 struct CaptureIndicator: View {
+    @Environment(\.speederAccent) private var accent
     @ObservedObject var store: SpeedStore
     var body: some View {
         HStack(spacing: 6) {
-            Circle().fill(store.isMonitoring ? Color.speederAccent : Color.orange).frame(width: 6, height: 6)
+            Circle().fill(store.isMonitoring ? accent : Color.orange).frame(width: 6, height: 6)
             Text(store.captureLabel).font(.system(size: 11, weight: .medium)).foregroundStyle(.secondary)
         }
         .accessibilityElement(children: .combine)
@@ -43,39 +40,71 @@ struct MetricView: View {
 }
 
 struct SpeedChart: View {
+    @Environment(\.speederAccent) private var accent
     let points: [WPMHistoryPoint]
     var compact = false
     var goal: Double? = nil
+    @State private var selected: ChartSample?
+    private var samples: [ChartSample] { ChartTimeline.samples(points) }
 
     var body: some View {
-        if points.count < 2 {
+        if points.isEmpty {
             VStack(spacing: 8) {
-                Image(systemName: "waveform.path").font(.system(size: compact ? 20 : 28)).foregroundStyle(Color.speederAccent.opacity(0.7))
+                Image(systemName: "waveform.path").font(.system(size: compact ? 20 : 28)).foregroundStyle(accent.opacity(0.7))
                 Text("Your rhythm starts here").font(.system(size: compact ? 11 : 14, weight: .medium))
                 if !compact { Text("Type in any app to see your speed over time.").font(.system(size: 12)).foregroundStyle(.secondary) }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .accessibilityLabel("No typing history yet")
+            }.frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
             Chart {
-                ForEach(points) { point in
-                    AreaMark(x: .value("Time", point.date), y: .value("WPM", point.wpm))
-                        .foregroundStyle(LinearGradient(colors: [.speederAccent.opacity(0.2), .speederAccent.opacity(0.01)], startPoint: .top, endPoint: .bottom))
-                    LineMark(x: .value("Time", point.date), y: .value("WPM", point.wpm))
-                        .foregroundStyle(Color.speederAccent).lineStyle(StrokeStyle(lineWidth: compact ? 1.5 : 2, lineCap: .round))
+                ForEach(samples) { sample in
+                    AreaMark(x: .value("Typing time", sample.x), y: .value("WPM", sample.point.wpm), series: .value("Burst", sample.series), stacking: .unstacked)
+                        .foregroundStyle(LinearGradient(colors: [accent.opacity(0.2), accent.opacity(0.01)], startPoint: .top, endPoint: .bottom))
+                    LineMark(x: .value("Typing time", sample.x), y: .value("WPM", sample.point.wpm), series: .value("Burst", sample.series))
+                        .foregroundStyle(accent).lineStyle(StrokeStyle(lineWidth: compact ? 1.5 : 2, lineCap: .round))
+                    PointMark(x: .value("Typing time", sample.x), y: .value("WPM", sample.point.wpm))
+                        .foregroundStyle(accent).symbolSize(4)
                 }
                 if let goal {
                     RuleMark(y: .value("Goal", goal)).foregroundStyle(Color.secondary.opacity(0.4))
                         .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 4]))
-                        .annotation(position: .top, alignment: .trailing) {
-                            Text("Goal · \(Int(goal))").font(.system(size: 10)).foregroundStyle(.secondary)
-                        }
+                }
+                if let selected {
+                    RuleMark(x: .value("Selected", selected.x)).foregroundStyle(Color.secondary.opacity(0.5))
+                    PointMark(x: .value("Selected", selected.x), y: .value("WPM", selected.point.wpm))
+                        .foregroundStyle(accent).symbolSize(35)
                 }
             }
+            .chartXScale(domain: 0...max(samples.last?.x ?? 0, 1))
             .chartYScale(domain: 0...max(20, (points.map(\.wpm).max() ?? 0) * 1.15, (goal ?? 0) * 1.2))
-            .chartXAxis(compact ? .hidden : .automatic)
+            .chartXAxis(.hidden)
             .chartYAxis(compact ? .hidden : .automatic)
-            .accessibilityLabel("Typing speed over time, in words per minute")
+            .chartOverlay { proxy in
+                GeometryReader { geometry in
+                    Color.clear.contentShape(Rectangle()).onContinuousHover { phase in
+                        switch phase {
+                        case .active(let location):
+                            let plot = geometry[proxy.plotAreaFrame]
+                            guard plot.contains(location), let x: Double = proxy.value(atX: location.x - plot.minX) else { selected = nil; return }
+                            selected = ChartTimeline.nearest(to: x, in: samples)
+                        case .ended: selected = nil
+                        }
+                    }
+                }
+            }
+            .overlay(alignment: .topLeading) {
+                if let selected {
+                    HStack(spacing: 6) {
+                        Text("\(WPMFormatter.string(selected.point.wpm)) wpm").fontWeight(.semibold)
+                        Text(selected.point.date, style: .time).foregroundStyle(.secondary)
+                    }.font(.system(size: compact ? 10 : 12)).padding(6)
+                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 6))
+                        .allowsHitTesting(false)
+                }
+            }
+            .onChange(of: points) { points in
+                if let id = selected?.id { selected = samples.first { $0.id == id } }
+            }
+            .accessibilityLabel("Typing speed. Pauses appear as breaks; hover for WPM and actual time.")
         }
     }
 }

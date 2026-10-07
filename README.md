@@ -36,13 +36,13 @@ IME output.
 macOS 13 or later; Swift 6 or later to build. Speeder needs **Accessibility** permission to see your
 keystrokes: the first-launch introduction explains it, and you can also flip the switch from
 Settings with *Accessibility Settings…*. Key events are inspected only to classify typing, separators and deletions.
-Their text is immediately discarded: only recent timings, numeric deltas and
-session statistics stay in memory. No files, network requests or telemetry.
-Quitting clears the session.
+Their text is immediately discarded. Recent timing samples stay in memory;
+numeric minute summaries are saved locally for long-term statistics. No network
+requests or telemetry. Quitting clears the live session but keeps the history.
 
 ## Install
 
-Download **Speeder-0.1.0-macos-universal.zip** from the
+Download **Speeder-0.2.0-macos-universal.zip** from the
 [latest release](https://github.com/mmattia09/speeder/releases/latest), unzip it,
 and move Speeder.app to Applications. It runs on Apple Silicon and Intel Macs
 with macOS 13 or later. The app is ad-hoc signed and not notarized, so Gatekeeper
@@ -66,19 +66,52 @@ works too.
 Click the small, monochrome spider for a compact popover: current pace, a recent
 sparkline, average, peak and word count. Pause or resume capture with one click.
 
-**Explore your session** opens a resizable window with a time-based speed graph,
-a WPM goal reference, burst and session metrics, and progress toward your goal.
-Copy the statistics or reset the session from the bottom of this window. Reset
-asks for confirmation. Closing the window keeps Speeder in the menu bar.
+**More statistics** opens the Statistics page: view the last 7 days, 30 days or
+all recorded activity, with daily word counts, weighted average speed, peak and
+active time. **Export all data** saves every minute summary as JSON or CSV,
+regardless of the selected date range.
+
+The **Session** page has the live speed graph, goal reference, burst and session
+metrics. Hover over either speed graph to see WPM and the actual sample time.
+Pauses are compressed into small breaks between separate lines, so a coffee
+break never produces a long diagonal. The horizontal axis represents typing
+progress, not elapsed wall-clock time.
+
+The menu-bar number averages batches of five keystroke rates. A partial batch
+is shown after 1.5 seconds of inactivity. The graphs and session metrics retain
+the unsmoothed rates.
+
+Reset clears the current session only; long-term history remains. Closing the
+window keeps Speeder in the menu bar.
 
 **Settings** (the gear, or ⌘,) lets you hide the menu-bar number, turn spider
-animation off, and choose a goal from 10 to 200 WPM. These preferences persist;
-typing statistics still stay in memory only. Animation respects Reduce Motion.
+animation off, choose a goal from 10 to 200 WPM, and pick an accent color (presets
+or any custom color). These preferences persist. Animation respects Reduce Motion.
+
+Enable **Launch Speeder at login** in Settings after moving the app to
+Applications. It uses macOS Login Items; if system approval is needed, the app
+links to the relevant settings. This option is off until you enable it.
 
 On first launch, a three-step introduction explains how Speeder works before
 offering Accessibility access. You can skip permission setup and return to it
 later, or replay the introduction from Settings. Quit with the popover's Quit
 button or ⌘Q while the app window is active.
+
+![Long-term statistics with example data](Docs/statistics.png)
+
+## Local history and export
+
+History begins with version 0.2.0; older versions did not save it. The database
+is `~/Library/Application Support/Speeder/statistics.sqlite`. It contains minute
+summaries, never text, app names or individual key codes. Updates are committed
+every ten seconds and on pause, reset and normal quit; a crash can lose the most
+recent uncommitted seconds. Disk errors appear on the Statistics page.
+
+Exports include the complete recorded history. JSON includes a schema version
+and UTC Unix timestamps; CSV uses ISO 8601 UTC timestamps. Each minute contains
+completed words, keystrokes, active seconds, peak WPM, the sum of sampled WPM and
+the sample count. The daily average uses total completed words divided by total
+active time; `rateSum / samples` is the mean of live-rate samples instead.
 
 ## Development
 
@@ -117,8 +150,8 @@ history sampling, long sessions, clock changes and key classification.
   the rebuilt app and relaunch it. Keep the app in a stable location.
 - **Password fields:** macOS Secure Input can prevent global capture. Speeder
   does not bypass it.
-- **History and averages:** history samples are collected during typing; the graph uses their
-  actual timestamps, so gaps between bursts appear on the time axis. Average counts completed words;
+- **History and averages:** history samples are collected during typing; pauses are compressed into
+  breaks. Hover to inspect the actual sample time. Average counts completed words;
   Current uses five characters per word and subtracts deletions. They can differ.
 
 ### Interface previews
@@ -129,7 +162,8 @@ swift run Speeder --render-previews /tmp/speeder-previews
 
 Debug builds can export the actual SwiftUI views in light and dark appearance,
 using synthetic statistics and isolated preferences, without starting capture.
-This includes the popover, session, settings, introduction and an empty session
+This includes the popover, session, long-term statistics, settings, custom accent,
+introduction and an empty session
 at the minimum window size. The export option is absent from release builds.
 
 ## Contributing

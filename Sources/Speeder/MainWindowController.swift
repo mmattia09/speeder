@@ -15,7 +15,7 @@ final class MainWindowController: NSWindowController, NSWindowDelegate {
         window.titlebarAppearsTransparent = true
         window.minSize = NSSize(width: 800, height: 580)
         window.isReleasedWhenClosed = false
-        window.contentView = NSHostingView(rootView: DashboardView(store: store, preferences: store.preferences, route: route))
+        window.contentView = NSHostingView(rootView: ThemeView(preferences: store.preferences) { DashboardView(store: store, preferences: store.preferences, route: route) })
         window.delegate = self
         window.setFrameAutosaveName("SpeederDashboard")
         window.center()
