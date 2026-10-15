@@ -16,14 +16,14 @@ struct StatsPanelView: View {
                         .font(.system(size: 48, weight: .light, design: .rounded)).monospacedDigit()
                     VStack(alignment: .leading, spacing: 2) {
                         Text("words / min").font(.system(size: 11, weight: .medium))
-                        Text(store.stats.isTyping && !store.isPaused ? "Current pace" : "Last pace").font(.system(size: 10)).foregroundStyle(.secondary)
+                        Text(LocalizedStringKey(store.stats.isTyping && !store.isPaused ? "Current pace" : "Last pace")).font(.system(size: 10)).foregroundStyle(.secondary)
                     }
                     Spacer()
                     Button(action: store.togglePaused) {
                         Image(systemName: store.isPaused ? "play.fill" : "pause.fill").frame(width: 26, height: 26)
                     }.buttonStyle(.borderless).foregroundStyle(.secondary)
-                        .help(store.isPaused ? "Resume tracking" : "Pause tracking")
-                        .accessibilityLabel(store.isPaused ? "Resume tracking" : "Pause tracking")
+                        .help(LocalizedStringKey(store.isPaused ? "Resume tracking" : "Pause tracking"))
+                        .accessibilityLabel(Text(LocalizedStringKey(store.isPaused ? "Resume tracking" : "Pause tracking")))
                 }
                 SpeedChart(points: store.history, compact: true).frame(height: 64)
                 HStack(spacing: 14) {

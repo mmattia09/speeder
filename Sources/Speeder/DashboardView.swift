@@ -33,7 +33,7 @@ struct DashboardView: View {
                 VStack(spacing: 6) {
                     ForEach(AppPage.allCases, id: \.self) { page in
                         Button { route.page = page } label: {
-                            Label(page.rawValue, systemImage: page.icon)
+                            Label(LocalizedStringKey(page.rawValue), systemImage: page.icon)
                                 .font(.system(size: 12, weight: .medium))
                                 .frame(maxWidth: .infinity, alignment: .leading).padding(10)
                                 .background(route.page == page ? accent.opacity(0.12) : .clear, in: RoundedRectangle(cornerRadius: 8))
@@ -77,7 +77,7 @@ struct DashboardView: View {
                 }
                 Spacer()
                 Button(action: store.togglePaused) {
-                    Label(store.isPaused ? "Resume" : "Pause", systemImage: store.isPaused ? "play" : "pause")
+                    Label(LocalizedStringKey(store.isPaused ? "Resume" : "Pause"), systemImage: store.isPaused ? "play" : "pause")
                 }.controlSize(.small)
             }
             Surface {
@@ -214,15 +214,15 @@ struct DashboardView: View {
                     Button("Show introduction again") { route.showsOnboarding = true }.buttonStyle(.borderless)
                 }
             }
-            Text("Speeder 0.2 · Built for macOS").font(.system(size: 11)).foregroundStyle(.tertiary)
+            Text("Speeder 0.2.1 · Built for macOS").font(.system(size: 11)).foregroundStyle(.tertiary)
         }
     }
 
     private func detail(_ label: String, value: String) -> some View {
-        HStack { Text(label).foregroundStyle(.secondary); Spacer(); Text(value).monospacedDigit() }.font(.system(size: 12))
+        HStack { Text(LocalizedStringKey(label)).foregroundStyle(.secondary); Spacer(); Text(value).monospacedDigit() }.font(.system(size: 12))
     }
 
     private func sectionLabel(_ title: String, icon: String) -> some View {
-        Label(title, systemImage: icon).font(.system(size: 10, weight: .semibold)).tracking(1).foregroundStyle(.secondary)
+        Label(LocalizedStringKey(title), systemImage: icon).font(.system(size: 10, weight: .semibold)).tracking(1).foregroundStyle(.secondary)
     }
 }

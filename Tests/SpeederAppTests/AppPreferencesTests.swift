@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 import Testing
 import SpeederCore
 @testable import Speeder
@@ -57,6 +58,25 @@ struct AppPreferencesTests {
         #expect(store.stats == .empty)
         #expect(store.history.isEmpty)
         store.stop()
+    }
+
+    @Test func idleSnapshotsDoNotRepublishUnchangedStats() {
+        let name = "Speeder.Tests.\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: name)!
+        defer { defaults.removePersistentDomain(forName: name) }
+        let preferences = AppPreferences(defaults: defaults)
+        preferences.animateSpider = false
+        let store = SpeedStore(preferences: preferences)
+        var emissions = 0
+        let subscription = store.$stats.sink { _ in emissions += 1 }
+        for _ in 0..<20 { store.updateSnapshot() }
+        #expect(emissions == 1)
+        store.handle(.character)
+        store.updateSnapshot()
+        #expect(emissions == 2)
+        for _ in 0..<20 { store.updateSnapshot() }
+        #expect(emissions == 2)
+        subscription.cancel()
     }
 
 }

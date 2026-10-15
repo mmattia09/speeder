@@ -76,7 +76,7 @@ final class SpeedStore: ObservableObject {
         session.record(character, at: date)
         let current = session.stats(now: date)
         smoother.record(current.currentWPM, at: date)
-        menuBarWPM = smoother.value
+        if menuBarWPM != smoother.value { menuBarWPM = smoother.value }
         let point = session.historySeries.last
         archive?.record(at: date, words: session.totalWords - oldWords, keystrokes: 1,
                         activeSeconds: session.activeDuration - oldDuration, peak: current.currentWPM,
@@ -84,17 +84,17 @@ final class SpeedStore: ObservableObject {
     }
 
     var captureLabel: String {
-        if isPaused { return "Tracking paused" }
-        if !isAuthorized { return "Permission needed" }
-        if !isMonitoring { return "Capture unavailable" }
-        return stats.isTyping ? "Typing now" : "Ready when you are"
+        if isPaused { return L("Tracking paused") }
+        if !isAuthorized { return L("Permission needed") }
+        if !isMonitoring { return L("Capture unavailable") }
+        return stats.isTyping ? L("Typing now") : L("Ready when you are")
     }
 
     func togglePaused() {
         isPaused.toggle()
         session.breakBurst()
         smoother.flush()
-        menuBarWPM = smoother.value
+        if menuBarWPM != smoother.value { menuBarWPM = smoother.value }
         saveArchive()
         refreshAuthorization()
         refresh()
@@ -106,7 +106,7 @@ final class SpeedStore: ObservableObject {
     }
 
     func copyStats() {
-        let summary = "Speeder · Current \(WPMFormatter.string(stats.currentWPM)) WPM · Average \(WPMFormatter.string(stats.averageWPM)) · Peak \(WPMFormatter.string(stats.peakWPM)) · \(stats.totalWords) words · \(WPMFormatter.duration(stats.activeDuration)) active"
+        let summary = L("Speeder · Current %@ WPM · Average %@ · Peak %@ · %lld words · %@ active", WPMFormatter.string(stats.currentWPM), WPMFormatter.string(stats.averageWPM), WPMFormatter.string(stats.peakWPM), stats.totalWords, WPMFormatter.duration(stats.activeDuration))
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(summary, forType: .string)
     }
@@ -125,6 +125,7 @@ final class SpeedStore: ObservableObject {
             Task { @MainActor in self?.refresh() }
         }
         RunLoop.main.add(timer, forMode: .common)
+        timer.tolerance = 0.025
         self.timer = timer
     }
 
@@ -136,11 +137,11 @@ final class SpeedStore: ObservableObject {
             try archive.flush()
             archiveRows = try archive.rows()
             storageError = nil
-        } catch { storageError = "History could not be saved: \(error.localizedDescription)" }
+        } catch { storageError = L("History could not be saved: %@", error.localizedDescription) }
     }
 
     func exportAll(csv: Bool) {
-        guard let archive else { exportMessage = "The history database is unavailable."; return }
+        guard let archive else { exportMessage = L("The history database is unavailable."); return }
         saveArchive()
         let panel = NSSavePanel()
         panel.allowedContentTypes = [csv ? .commaSeparatedText : .json]
@@ -148,8 +149,8 @@ final class SpeedStore: ObservableObject {
         guard panel.runModal() == .OK, let url = panel.url else { return }
         do {
             try archive.export(csv: csv).write(to: url, options: .atomic)
-            exportMessage = "All recorded minute summaries were exported to \(url.lastPathComponent)."
-        } catch { exportMessage = "Export failed: \(error.localizedDescription)" }
+            exportMessage = L("All recorded minute summaries were exported to %@.", url.lastPathComponent)
+        } catch { exportMessage = L("Export failed: %@", error.localizedDescription) }
     }
 
     func stop() {
@@ -168,12 +169,16 @@ final class SpeedStore: ObservableObject {
         }
         if Date().timeIntervalSince(lastSave) >= 10 { saveArchive() }
         smoother.idle(at: Date())
-        menuBarWPM = smoother.value
+        if menuBarWPM != smoother.value { menuBarWPM = smoother.value }
         updateSnapshot()
     }
 
     func updateSnapshot() {
-        stats = session.stats()
-        history = session.historySeries
+        let next = session.stats()
+        let animating = next.isTyping && !isPaused && preferences.animateSpider
+            && !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+        if next != stats || animating { stats = next }
+        let nextHistory = session.historySeries
+        if nextHistory != history { history = nextHistory }
     }
 }

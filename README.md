@@ -14,6 +14,9 @@ rest: current burst, session average, peak, and history.
 
 *Session window with example statistics. Light and dark appearance follow macOS.*
 
+Speeder includes an app icon and follows your macOS language: **English, Italian,
+French, Spanish or German**. Other languages fall back to English.
+
 ## What it measures
 
 - **Current** — estimated words per minute over a 5 second sliding window (5
@@ -42,7 +45,7 @@ requests or telemetry. Quitting clears the live session but keeps the history.
 
 ## Install
 
-Download **Speeder-0.2.0-macos-universal.zip** from the
+Download **Speeder-0.2.1-macos-universal.zip** from the
 [latest release](https://github.com/mmattia09/speeder/releases/latest), unzip it,
 and move Speeder.app to Applications. It runs on Apple Silicon and Intel Macs
 with macOS 13 or later. The app is ad-hoc signed and not notarized, so Gatekeeper
@@ -165,6 +168,34 @@ using synthetic statistics and isolated preferences, without starting capture.
 This includes the popover, session, long-term statistics, settings, custom accent,
 introduction and an empty session
 at the minimum window size. The export option is absent from release builds.
+
+### Icons and translations
+
+The app icon is a vector drawing rendered at all standard macOS icon sizes:
+
+```sh
+swift Scripts/generate-icon.swift /tmp/Speeder.iconset
+iconutil -c icns /tmp/Speeder.iconset -o Resources/AppIcon.icns
+```
+
+Translations live in `Scripts/localizations.txt` (English key followed by Italian,
+French, Spanish and German, separated by `|`). Regenerate and validate them with:
+
+```sh
+python3 Scripts/generate-localizations.py
+python3 Scripts/check-localizations.py
+```
+
+The build copies the `.lproj` folders into the app bundle. To visually check a
+language, build a debug bundle and invoke its executable:
+
+```sh
+Scripts/build-app.sh debug
+dist/Speeder.app/Contents/MacOS/Speeder --render-previews /tmp/speeder-it -AppleLanguages '(it)' -AppleLocale it_IT
+```
+
+Idle snapshots do not republish unchanged statistics. The menu-bar spider caches
+its static image and only renders frames when animating or changing displays.
 
 ## Contributing
 

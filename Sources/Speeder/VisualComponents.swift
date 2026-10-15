@@ -29,7 +29,7 @@ struct MetricView: View {
     var unit = ""
     var body: some View {
         VStack(alignment: .leading, spacing: 7) {
-            Text(title).font(.system(size: 11, weight: .medium)).foregroundStyle(.secondary)
+            Text(LocalizedStringKey(title)).font(.system(size: 11, weight: .medium)).foregroundStyle(.secondary)
             HStack(alignment: .firstTextBaseline, spacing: 4) {
                 Text(value).font(.system(size: 23, weight: .medium, design: .rounded)).monospacedDigit()
                 if !unit.isEmpty { Text(unit).font(.system(size: 10)).foregroundStyle(.secondary) }
@@ -57,20 +57,20 @@ struct SpeedChart: View {
         } else {
             Chart {
                 ForEach(samples) { sample in
-                    AreaMark(x: .value("Typing time", sample.x), y: .value("WPM", sample.point.wpm), series: .value("Burst", sample.series), stacking: .unstacked)
+                    AreaMark(x: .value(L("Typing time"), sample.x), y: .value(L("WPM"), sample.point.wpm), series: .value(L("Burst"), sample.series), stacking: .unstacked)
                         .foregroundStyle(LinearGradient(colors: [accent.opacity(0.2), accent.opacity(0.01)], startPoint: .top, endPoint: .bottom))
-                    LineMark(x: .value("Typing time", sample.x), y: .value("WPM", sample.point.wpm), series: .value("Burst", sample.series))
+                    LineMark(x: .value(L("Typing time"), sample.x), y: .value(L("WPM"), sample.point.wpm), series: .value(L("Burst"), sample.series))
                         .foregroundStyle(accent).lineStyle(StrokeStyle(lineWidth: compact ? 1.5 : 2, lineCap: .round))
-                    PointMark(x: .value("Typing time", sample.x), y: .value("WPM", sample.point.wpm))
+                    PointMark(x: .value(L("Typing time"), sample.x), y: .value(L("WPM"), sample.point.wpm))
                         .foregroundStyle(accent).symbolSize(4)
                 }
                 if let goal {
-                    RuleMark(y: .value("Goal", goal)).foregroundStyle(Color.secondary.opacity(0.4))
+                    RuleMark(y: .value(L("Goal"), goal)).foregroundStyle(Color.secondary.opacity(0.4))
                         .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 4]))
                 }
                 if let selected {
-                    RuleMark(x: .value("Selected", selected.x)).foregroundStyle(Color.secondary.opacity(0.5))
-                    PointMark(x: .value("Selected", selected.x), y: .value("WPM", selected.point.wpm))
+                    RuleMark(x: .value(L("Selected"), selected.x)).foregroundStyle(Color.secondary.opacity(0.5))
+                    PointMark(x: .value(L("Selected"), selected.x), y: .value(L("WPM"), selected.point.wpm))
                         .foregroundStyle(accent).symbolSize(35)
                 }
             }

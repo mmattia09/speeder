@@ -17,6 +17,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Toolchain
         run: swift --version
+      - name: Localizations
+        run: python3 Scripts/check-localizations.py
       - name: Tests
         run: swift test
       - name: Build app

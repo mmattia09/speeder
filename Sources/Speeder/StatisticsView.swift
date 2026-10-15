@@ -61,7 +61,7 @@ struct StatisticsView: View {
                     HStack {
                         Text("Daily activity").font(.system(size: 13, weight: .semibold))
                         Spacer()
-                        Text(hovered.map { "\($0.date.formatted(date: .abbreviated, time: .omitted)) · \($0.total.words) words · \(WPMFormatter.string($0.total.averageWPM)) wpm" } ?? "Hover to explore")
+                        Text(hovered.map { L("%@ · %lld words · %@ wpm", $0.date.formatted(date: .abbreviated, time: .omitted), $0.total.words, WPMFormatter.string($0.total.averageWPM)) } ?? L("Hover to explore"))
                             .font(.system(size: 11)).foregroundStyle(.secondary)
                     }
                     if activity.isEmpty {
@@ -72,7 +72,7 @@ struct StatisticsView: View {
                         }.frame(maxWidth: .infinity).frame(height: 190)
                     } else {
                         Chart(activity) { day in
-                            BarMark(x: .value("Day", day.date, unit: .day), y: .value("Words", day.total.words))
+                            BarMark(x: .value(L("Day"), day.date, unit: .day), y: .value(L("Words"), day.total.words))
                                 .foregroundStyle(accent.gradient).cornerRadius(3)
                         }.frame(height: 190)
                         .chartOverlay { proxy in
@@ -91,9 +91,9 @@ struct StatisticsView: View {
                         }
                     }
                     HStack {
-                        Text("\(activity.count) active days")
+                        Text(L("Active days: %lld", activity.count))
                         Spacer()
-                        Text("\(WPMFormatter.duration(total.activeSeconds)) typing · \(total.keystrokes) keystrokes")
+                        Text(L("%@ typing · %lld keystrokes", WPMFormatter.duration(total.activeSeconds), total.keystrokes))
                     }.font(.system(size: 11)).foregroundStyle(.secondary)
                 }
             }

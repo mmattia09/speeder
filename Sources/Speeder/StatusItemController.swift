@@ -9,6 +9,8 @@ final class StatusItemController: NSObject {
     private let mainWindow: MainWindowController
     private var statusItem: NSStatusItem?
     private let popover = NSPopover()
+    private var lastMoving = false
+    private var lastScale: CGFloat = 0
     private var cancellables = Set<AnyCancellable>()
 
     init(store: SpeedStore, mainWindow: MainWindowController) {
@@ -21,9 +23,9 @@ final class StatusItemController: NSObject {
         statusItem = item
         item.button?.target = self
         item.button?.action = #selector(togglePopover)
-        item.button?.setAccessibilityLabel("Speeder typing speed")
+        item.button?.setAccessibilityLabel(L("Speeder typing speed"))
         popover.behavior = .transient
-        store.$stats.receive(on: RunLoop.main).sink { [weak self] _ in self?.render() }.store(in: &cancellables)
+        store.objectWillChange.receive(on: RunLoop.main).sink { [weak self] _ in self?.render() }.store(in: &cancellables)
         store.preferences.objectWillChange.receive(on: RunLoop.main).sink { [weak self] _ in self?.render() }.store(in: &cancellables)
         render()
     }
@@ -82,15 +84,23 @@ final class StatusItemController: NSObject {
         guard let button = statusItem?.button else { return }
         let stats = store.stats
         let animate = store.preferences.animateSpider && !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
-        let spider = SpiderView(wpm: stats.currentWPM, isTyping: stats.isTyping && !store.isPaused && animate,
-                                phase: animate ? Date().timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 3600) : 0)
-            .frame(width: 14, height: 12)
-        let renderer = ImageRenderer(content: spider)
-        renderer.scale = button.window?.backingScaleFactor ?? 2
-        if let image = renderer.nsImage {
-            image.size = NSSize(width: 14, height: 12)
-            image.isTemplate = true
-            button.image = image
+        let moving = stats.isTyping && !store.isPaused && animate
+        let scale = button.window?.backingScaleFactor ?? 2
+        // The template image is static at rest; avoid constructing a SwiftUI
+        // renderer on every tick when there is nothing to animate.
+        if moving || button.image == nil || lastMoving != moving || lastScale != scale {
+            let spider = SpiderView(wpm: stats.currentWPM, isTyping: moving,
+                                    phase: moving ? Date().timeIntervalSinceReferenceDate.truncatingRemainder(dividingBy: 3600) : 0)
+                .frame(width: 14, height: 12)
+            let renderer = ImageRenderer(content: spider)
+            renderer.scale = scale
+            if let image = renderer.nsImage {
+                image.size = NSSize(width: 14, height: 12)
+                image.isTemplate = true
+                button.image = image
+            }
+            lastMoving = moving
+            lastScale = scale
         }
         button.imagePosition = store.preferences.showSpeed ? .imageLeading : .imageOnly
         button.font = NSFont.monospacedDigitSystemFont(ofSize: 13, weight: .medium)

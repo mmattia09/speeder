@@ -1,0 +1,119 @@
+Session|Sessione|Session|Sesión|Sitzung
+Statistics|Statistiche|Statistiques|Estadísticas|Statistik
+Settings|Impostazioni|Réglages|Ajustes|Einstellungen
+Settings…|Impostazioni…|Réglages…|Ajustes…|Einstellungen…
+Window|Finestra|Fenêtre|Ventana|Fenster
+Quit Speeder|Esci da Speeder|Quitter Speeder|Salir de Speeder|Speeder beenden
+Close|Chiudi|Fermer|Cerrar|Schließen
+Minimize|Riduci a icona|Réduire|Minimizar|Minimieren
+Quit|Esci|Quitter|Salir|Beenden
+Average|Media|Moyenne|Media|Durchschnitt
+Peak|Picco|Maximum|Máximo|Spitze
+Words|Parole|Mots|Palabras|Wörter
+words / min|parole / min|mots / min|palabras / min|Wörter / Min.
+Current pace|Ritmo attuale|Rythme actuel|Ritmo actual|Aktuelles Tempo
+Last pace|Ultimo ritmo|Dernier rythme|Último ritmo|Letztes Tempo
+Resume tracking|Riprendi rilevamento|Reprendre le suivi|Reanudar seguimiento|Erfassung fortsetzen
+Pause tracking|Sospendi rilevamento|Suspendre le suivi|Pausar seguimiento|Erfassung pausieren
+Enable Accessibility to start|Abilita Accessibilità per iniziare|Activer l’accessibilité pour commencer|Activa Accesibilidad para empezar|Zum Start Bedienungshilfen erlauben
+More statistics|Altre statistiche|Plus de statistiques|Más estadísticas|Weitere Statistiken
+Tracking paused|Rilevamento sospeso|Suivi suspendu|Seguimiento en pausa|Erfassung pausiert
+Permission needed|Autorizzazione necessaria|Autorisation requise|Se necesita permiso|Berechtigung erforderlich
+Capture unavailable|Rilevamento non disponibile|Suivi indisponible|Captura no disponible|Erfassung nicht verfügbar
+Typing now|Stai scrivendo|Saisie en cours|Escribiendo|Du schreibst gerade
+Ready when you are|Pronto quando vuoi|À votre rythme|Cuando quieras|Bereit, wenn du es bist
+Speeder typing speed|Velocità di scrittura Speeder|Vitesse de frappe Speeder|Velocidad de escritura de Speeder|Speeder-Tippgeschwindigkeit
+Made for your rhythm|Al tuo ritmo|À votre rythme|A tu ritmo|Für deinen Rhythmus
+Private. Local. In the moment.|Privato. Locale. In tempo reale.|Privé. Local. En temps réel.|Privado. Local. En tiempo real.|Privat. Lokal. In Echtzeit.
+Start a fresh session?|Iniziare una nuova sessione?|Démarrer une nouvelle session ?|¿Iniciar una nueva sesión?|Neue Sitzung starten?
+Cancel|Annulla|Annuler|Cancelar|Abbrechen
+Reset session|Azzera sessione|Réinitialiser la session|Reiniciar sesión|Sitzung zurücksetzen
+This clears the current session and graph. Your long-term history is kept.|La sessione e il grafico attuali verranno azzerati. Lo storico viene conservato.|La session et le graphique actuels seront effacés. L’historique sera conservé.|Se borrarán la sesión y el gráfico actuales. Se conservará el historial.|Die aktuelle Sitzung und ihr Diagramm werden gelöscht. Der Verlauf bleibt erhalten.
+Your typing, in focus.|La tua scrittura, a fuoco.|Votre frappe, en détail.|Tu escritura, en detalle.|Dein Tippen im Blick.
+A little insight into the way you work.|Uno sguardo al tuo modo di lavorare.|Un aperçu de votre façon de travailler.|Una mirada a tu forma de trabajar.|Ein Einblick in deine Arbeitsweise.
+Resume|Riprendi|Reprendre|Reanudar|Fortsetzen
+Pause|Pausa|Pause|Pausar|Pause
+CURRENT PACE|RITMO ATTUALE|RYTHME ACTUEL|RITMO ACTUAL|AKTUELLES TEMPO
+Recent rhythm|Ritmo recente|Rythme récent|Ritmo reciente|Letzter Verlauf
+Hover for speed · pauses are gaps, not elapsed time|Passa sul grafico · le pause sono interruzioni|Survolez le graphique · les pauses sont des coupures|Pasa el cursor · las pausas son interrupciones|Maus bewegen · Pausen erscheinen als Lücken
+Session average|Media sessione|Moyenne de session|Media de sesión|Sitzungsdurchschnitt
+Session peak|Picco sessione|Maximum de session|Máximo de sesión|Sitzungsspitze
+Current burst|Tratto attuale|Séquence actuelle|Racha actual|Aktuelle Tippserie
+The session so far|La sessione finora|La session jusqu’ici|La sesión hasta ahora|Die bisherige Sitzung
+Words completed|Parole completate|Mots terminés|Palabras completadas|Abgeschlossene Wörter
+Keystrokes|Pressioni dei tasti|Frappes|Pulsaciones|Tastenanschläge
+Time spent typing|Tempo di scrittura|Temps de frappe|Tiempo escribiendo|Aktive Schreibzeit
+Find your pace|Trova il tuo ritmo|Trouvez votre rythme|Encuentra tu ritmo|Finde dein Tempo
+wpm goal|obiettivo WPM|objectif WPM|objetivo WPM|WPM-Ziel
+Goal progress|Progresso obiettivo|Progression vers l’objectif|Progreso del objetivo|Zielfortschritt
+Based on your session average. Set a comfortable goal in Settings.|In base alla media della sessione. Scegli un obiettivo comodo nelle Impostazioni.|Selon la moyenne de la session. Choisissez un objectif confortable dans les réglages.|Según la media de la sesión. Elige un objetivo cómodo en Ajustes.|Basierend auf dem Sitzungsdurchschnitt. Wähle in den Einstellungen ein angenehmes Ziel.
+History is saved on this Mac.|Lo storico è salvato su questo Mac.|L’historique reste sur ce Mac.|El historial se guarda en este Mac.|Der Verlauf wird auf diesem Mac gespeichert.
+Copy stats|Copia statistiche|Copier les statistiques|Copiar estadísticas|Statistik kopieren
+Reset…|Azzera…|Réinitialiser…|Reiniciar…|Zurücksetzen…
+Make it yours.|Fallo tuo.|À votre image.|Hazlo tuyo.|Mach es zu deinem.
+Small adjustments. A rhythm that suits you.|Piccoli ritocchi. Un ritmo tutto tuo.|Quelques réglages. Un rythme qui vous convient.|Pequeños ajustes. Un ritmo a tu medida.|Kleine Anpassungen. Dein eigener Rhythmus.
+APPEARANCE|ASPETTO|APPARENCE|APARIENCIA|ERSCHEINUNGSBILD
+Accent color|Colore d’accento|Couleur d’accentuation|Color de acento|Akzentfarbe
+Reset color|Ripristina colore|Rétablir la couleur|Restablecer color|Farbe zurücksetzen
+STARTUP|AVVIO|DÉMARRAGE|INICIO|START
+Launch Speeder at login|Avvia Speeder al login|Ouvrir Speeder à la connexion|Abrir Speeder al iniciar sesión|Speeder bei der Anmeldung starten
+Keep Speeder.app in Applications before enabling this option.|Sposta Speeder.app in Applicazioni prima di attivare questa opzione.|Placez Speeder.app dans Applications avant d’activer cette option.|Mueve Speeder.app a Aplicaciones antes de activar esta opción.|Verschiebe Speeder.app in Programme, bevor du diese Option aktivierst.
+Approve in Login Items…|Autorizza in Elementi login…|Autoriser dans Ouverture…|Autorizar en Ítems de inicio…|In Anmeldeobjekten erlauben…
+MENU BAR|BARRA DEI MENU|BARRE DES MENUS|BARRA DE MENÚS|MENÜLEISTE
+Show typing speed beside the spider|Mostra la velocità accanto al ragno|Afficher la vitesse à côté de l’araignée|Mostrar la velocidad junto a la araña|Geschwindigkeit neben der Spinne anzeigen
+Animate the spider while typing|Anima il ragno mentre scrivi|Animer l’araignée pendant la frappe|Animar la araña al escribir|Spinne beim Tippen animieren
+The number averages five keystrokes; the last partial batch appears when you pause. Animation respects Reduce Motion.|Il numero è la media di cinque pressioni; l’ultimo gruppo incompleto appare durante la pausa. L’animazione rispetta Riduci movimento.|Le nombre est la moyenne de cinq frappes ; le dernier groupe incomplet apparaît à la pause. L’animation respecte Réduire les animations.|El número promedia cinco pulsaciones; el último grupo incompleto aparece al pausar. La animación respeta Reducir movimiento.|Die Zahl mittelt fünf Anschläge; die letzte unvollständige Gruppe erscheint bei einer Pause. Die Animation beachtet Bewegung reduzieren.
+YOUR PACE|IL TUO RITMO|VOTRE RYTHME|TU RITMO|DEIN TEMPO
+Typing goal|Obiettivo di scrittura|Objectif de frappe|Objetivo de escritura|Tippziel
+A reference line in your graph, not a limit. There is no need to rush.|Una linea di riferimento nel grafico, non un limite. Non c’è fretta.|Un repère dans le graphique, pas une limite. Rien ne presse.|Una referencia en el gráfico, no un límite. No hay prisa.|Eine Orientierungslinie im Diagramm, keine Grenze. Du musst dich nicht beeilen.
+PRIVACY & ACCESS|PRIVACY E ACCESSO|CONFIDENTIALITÉ ET ACCÈS|PRIVACIDAD Y ACCESO|DATENSCHUTZ UND ZUGRIFF
+Accessibility Settings…|Impostazioni Accessibilità…|Réglages d’accessibilité…|Ajustes de Accesibilidad…|Bedienungshilfen…
+Speeder classifies keystrokes and immediately discards their text. Numeric minute summaries are saved locally for long-term statistics and export. No uploads, no saved text, no account.|Speeder classifica i tasti e scarta subito il testo. Salva riepiloghi numerici al minuto sul Mac per lo storico e l’esportazione. Nessun caricamento, testo salvato o account.|Speeder classe les frappes et supprime immédiatement leur texte. Des résumés numériques par minute sont enregistrés localement pour l’historique et l’export. Aucun envoi, texte enregistré ou compte.|Speeder clasifica las pulsaciones y descarta su texto al instante. Guarda resúmenes numéricos por minuto en el Mac para el historial y la exportación. Sin subidas, texto guardado ni cuentas.|Speeder ordnet Tastenanschläge ein und verwirft ihren Text sofort. Numerische Minutenwerte werden lokal für Verlauf und Export gespeichert. Keine Uploads, gespeicherten Texte oder Konten.
+Show introduction again|Mostra di nuovo l’introduzione|Revoir la présentation|Ver la introducción de nuevo|Einführung erneut anzeigen
+Speeder 0.2.1 · Built for macOS|Speeder 0.2.1 · Creato per macOS|Speeder 0.2.1 · Conçu pour macOS|Speeder 0.2.1 · Creado para macOS|Speeder 0.2.1 · Für macOS entwickelt
+The bigger picture.|Uno sguardo d’insieme.|Une vue d’ensemble.|Una visión más amplia.|Der große Überblick.
+Your rhythm over days, weeks and months.|Il tuo ritmo, giorno dopo giorno.|Votre rythme au fil des jours, semaines et mois.|Tu ritmo a lo largo de días, semanas y meses.|Dein Rhythmus über Tage, Wochen und Monate.
+Export all data|Esporta tutti i dati|Exporter toutes les données|Exportar todos los datos|Alle Daten exportieren
+Period|Periodo|Période|Período|Zeitraum
+7 days|7 giorni|7 jours|7 días|7 Tage
+30 days|30 giorni|30 jours|30 días|30 Tage
+All time|Tutto|Tout|Todo|Gesamt
+Daily activity|Attività giornaliera|Activité quotidienne|Actividad diaria|Tägliche Aktivität
+Hover to explore|Passa il cursore per esplorare|Survolez pour explorer|Pasa el cursor para explorar|Zum Erkunden Maus bewegen
+A new chapter starts today|Un nuovo capitolo inizia oggi|Un nouveau chapitre commence aujourd’hui|Hoy empieza un nuevo capítulo|Ein neues Kapitel beginnt heute
+Your typing will appear here. Past sessions from older versions cannot be recovered.|Qui apparirà la tua attività. Le sessioni delle versioni precedenti non sono recuperabili.|Votre activité apparaîtra ici. Les sessions des anciennes versions ne peuvent pas être récupérées.|Tu actividad aparecerá aquí. No se pueden recuperar las sesiones de versiones anteriores.|Hier erscheint deine Schreibaktivität. Sitzungen älterer Versionen lassen sich nicht wiederherstellen.
+Recent days|Giorni recenti|Derniers jours|Días recientes|Letzte Tage
+Words · Average · Active time|Parole · Media · Tempo attivo|Mots · Moyenne · Temps actif|Palabras · Media · Tiempo activo|Wörter · Durchschnitt · Aktive Zeit
+Stored locally as minute summaries. Exports include the complete history, regardless of the selected period. No key text is stored.|Riepiloghi al minuto salvati sul Mac. L’esportazione include tutto lo storico, indipendentemente dal periodo scelto. Il testo digitato non viene salvato.|Résumés par minute conservés localement. L’export inclut tout l’historique, quelle que soit la période sélectionnée. Le texte saisi n’est pas enregistré.|Resúmenes por minuto guardados localmente. La exportación incluye todo el historial, sin importar el período elegido. No se guarda el texto escrito.|Lokal gespeicherte Minutenwerte. Exporte enthalten den gesamten Verlauf, unabhängig vom gewählten Zeitraum. Getippter Text wird nicht gespeichert.
+Data export|Esportazione dati|Export des données|Exportación de datos|Datenexport
+Your rhythm starts here|Il tuo ritmo inizia qui|Votre rythme commence ici|Tu ritmo empieza aquí|Dein Rhythmus beginnt hier
+Type in any app to see your speed over time.|Scrivi in qualsiasi app per vedere la tua velocità.|Écrivez dans une app pour voir votre vitesse évoluer.|Escribe en cualquier app para ver tu velocidad.|Tippe in einer beliebigen App, um deinen Verlauf zu sehen.
+Typing speed. Pauses appear as breaks; hover for WPM and actual time.|Velocità di scrittura. Le pause sono interruzioni; passa il cursore per WPM e ora effettiva.|Vitesse de frappe. Les pauses sont des coupures ; survolez pour voir les WPM et l’heure réelle.|Velocidad de escritura. Las pausas son interrupciones; pasa el cursor para ver WPM y la hora real.|Tippgeschwindigkeit. Pausen erscheinen als Lücken; bewege die Maus für WPM und Uhrzeit.
+WELCOME TO SPEEDER|BENVENUTO IN SPEEDER|BIENVENUE DANS SPEEDER|TE DAMOS LA BIENVENIDA A SPEEDER|WILLKOMMEN BEI SPEEDER
+Get to know your rhythm.|Scopri il tuo ritmo.|Découvrez votre rythme.|Descubre tu ritmo.|Lerne deinen Rhythmus kennen.
+Your words stay yours.|Le tue parole restano tue.|Vos mots restent les vôtres.|Tus palabras siguen siendo tuyas.|Deine Worte bleiben deine.
+A little presence.\nA clearer picture.|Una piccola presenza.\nUna visione più chiara.|Une présence discrète.\nUne vision plus claire.|Una presencia discreta.\nUna visión más clara.|Dezent im Hintergrund.\nKlarer im Blick.
+A quiet companion in your menu bar. See your typing speed at a glance, then open your session for a closer look.|Un compagno discreto nella barra dei menu. Controlla la velocità al volo e apri la sessione per saperne di più.|Un compagnon discret dans la barre des menus. Consultez votre vitesse d’un regard, puis ouvrez la session pour plus de détails.|Un compañero discreto en la barra de menús. Consulta tu velocidad de un vistazo y abre la sesión para ver más detalles.|Ein dezenter Begleiter in der Menüleiste. Sieh dein Tempo auf einen Blick und öffne die Sitzung für mehr Details.
+Speeder needs Accessibility access to count typing across apps. Key text is discarded immediately. Only numeric minute summaries are saved on your Mac; nothing is uploaded.|Speeder richiede l’accesso ad Accessibilità per contare i tasti nelle altre app. Il testo viene scartato subito. Sul Mac si salvano solo riepiloghi numerici al minuto; nulla viene caricato online.|Speeder a besoin de l’accès d’accessibilité pour compter les frappes dans les apps. Le texte est immédiatement supprimé. Seuls des résumés numériques par minute restent sur votre Mac ; rien n’est envoyé.|Speeder necesita acceso a Accesibilidad para contar pulsaciones en las apps. El texto se descarta al instante. Solo se guardan resúmenes numéricos por minuto en tu Mac; no se sube nada.|Speeder benötigt Zugriff auf die Bedienungshilfen, um Anschläge in Apps zu zählen. Der Text wird sofort verworfen. Nur numerische Minutenwerte bleiben auf deinem Mac; nichts wird hochgeladen.
+Click the tiny spider for your current pace. Open More statistics for your history, or set a comfortable WPM goal in Settings.|Fai clic sul ragno per il ritmo attuale. Apri Altre statistiche per lo storico o scegli un obiettivo WPM nelle Impostazioni.|Cliquez sur l’araignée pour votre rythme actuel. Ouvrez Plus de statistiques pour l’historique ou choisissez un objectif WPM dans les réglages.|Haz clic en la araña para ver tu ritmo. Abre Más estadísticas para el historial o elige un objetivo WPM en Ajustes.|Klicke auf die Spinne für dein aktuelles Tempo. Öffne Weitere Statistiken für den Verlauf oder wähle ein WPM-Ziel in den Einstellungen.
+Open Settings|Apri Impostazioni|Ouvrir les réglages|Abrir Ajustes|Einstellungen öffnen
+Enable Accessibility|Abilita Accessibilità|Activer l’accessibilité|Activar Accesibilidad|Bedienungshilfen erlauben
+You can enable access later. Password fields protected by macOS are not captured.|Puoi autorizzare l’accesso in seguito. I campi password protetti da macOS non vengono rilevati.|Vous pourrez autoriser l’accès plus tard. Les champs de mot de passe protégés par macOS ne sont pas capturés.|Puedes permitir el acceso más tarde. Los campos de contraseña protegidos por macOS no se capturan.|Du kannst den Zugriff später erlauben. Von macOS geschützte Passwortfelder werden nicht erfasst.
+Back|Indietro|Retour|Atrás|Zurück
+Make yourself at home|Inizia pure|Installez-vous|Empieza cuando quieras|Leg los
+Continue for now|Continua per ora|Continuer pour l’instant|Continuar por ahora|Vorerst fortfahren
+Continue|Continua|Continuer|Continuar|Weiter
+History is unavailable: %@|Storico non disponibile: %@|Historique indisponible : %@|Historial no disponible: %@|Verlauf nicht verfügbar: %@
+History could not be saved: %@|Impossibile salvare lo storico: %@|Impossible d’enregistrer l’historique : %@|No se pudo guardar el historial: %@|Verlauf konnte nicht gespeichert werden: %@
+The history database is unavailable.|Il database dello storico non è disponibile.|La base de données de l’historique est indisponible.|La base de datos del historial no está disponible.|Die Verlaufsdatenbank ist nicht verfügbar.
+All recorded minute summaries were exported to %@.|Tutti i riepiloghi al minuto sono stati esportati in %@.|Tous les résumés par minute ont été exportés vers %@.|Todos los resúmenes por minuto se exportaron a %@.|Alle Minutenwerte wurden nach %@ exportiert.
+Export failed: %@|Esportazione non riuscita: %@|Échec de l’export : %@|Error al exportar: %@|Export fehlgeschlagen: %@
+Speeder · Current %@ WPM · Average %@ · Peak %@ · %lld words · %@ active|Speeder · Attuale %@ WPM · Media %@ · Picco %@ · %lld parole · %@ di attività|Speeder · Actuel %@ WPM · Moyenne %@ · Maximum %@ · %lld mots · %@ d’activité|Speeder · Actual %@ WPM · Media %@ · Máximo %@ · %lld palabras · %@ de actividad|Speeder · Aktuell %@ WPM · Durchschnitt %@ · Spitze %@ · %lld Wörter · %@ aktiv
+%@ · %lld words · %@ wpm|%@ · %lld parole · %@ wpm|%@ · %lld mots · %@ wpm|%@ · %lld palabras · %@ wpm|%@ · %lld Wörter · %@ wpm
+Active days: %lld|Giorni attivi: %lld|Jours actifs : %lld|Días activos: %lld|Aktive Tage: %lld
+%@ typing · %lld keystrokes|%@ di scrittura · %lld pressioni|%@ de frappe · %lld frappes|%@ escribiendo · %lld pulsaciones|%@ Schreibzeit · %lld Anschläge
+Typing time|Tempo di scrittura|Temps de frappe|Tiempo de escritura|Schreibzeit
+Burst|Tratto|Séquence|Racha|Tippserie
+Goal|Obiettivo|Objectif|Objetivo|Ziel
+Selected|Selezione|Sélection|Selección|Auswahl
+Day|Giorno|Jour|Día|Tag

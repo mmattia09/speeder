@@ -49,6 +49,7 @@ enum PreviewExport {
             try save(DashboardView(store: store, preferences: preferences, route: route).frame(width: 900, height: 740), scheme: scheme, to: url.appendingPathComponent("settings-\(suffix).png"))
             route.page = .session
             try save(StatsPanelView(store: store, openDashboard: {}, openSettings: {}).background(Color(nsColor: .windowBackgroundColor)), scheme: scheme, to: url.appendingPathComponent("popover-\(suffix).png"))
+            try save(OnboardingView(store: store, preferences: preferences, finish: {}, step: 1).background(Color(nsColor: .windowBackgroundColor)), scheme: scheme, to: url.appendingPathComponent("permissions-\(suffix).png"))
             try save(OnboardingView(store: store, preferences: preferences, finish: {}).background(Color(nsColor: .windowBackgroundColor)), scheme: scheme, to: url.appendingPathComponent("onboarding-\(suffix).png"))
         }
         preferences.accentHex = "8B5CF6"
