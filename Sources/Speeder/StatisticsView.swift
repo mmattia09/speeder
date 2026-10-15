@@ -47,9 +47,12 @@ struct StatisticsView: View {
                     Button("CSV…") { store.exportAll(csv: true) }
                 }.fixedSize()
             }
-            Picker("Period", selection: $days) {
-                Text("7 days").tag(7); Text("30 days").tag(30); Text("All time").tag(0)
-            }.pickerStyle(.segmented).frame(width: 270)
+            HStack(spacing: 12) {
+                Text("Period").fixedSize(horizontal: true, vertical: false)
+                Picker("Period", selection: $days) {
+                    Text("7 days").tag(7); Text("30 days").tag(30); Text("All time").tag(0)
+                }.pickerStyle(.segmented).labelsHidden().frame(width: 270)
+            }
             if let error = store.storageError { Label(error, systemImage: "exclamationmark.triangle").font(.caption).foregroundStyle(.orange) }
             HStack(spacing: 12) {
                 Surface { MetricView(title: "Words", value: total.words.formatted()) }
