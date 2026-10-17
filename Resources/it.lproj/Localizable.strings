@@ -50,7 +50,7 @@
 "History could not be saved: %@" = "Impossibile salvare lo storico: %@";
 "History is saved on this Mac." = "Lo storico è salvato su questo Mac.";
 "History is unavailable: %@" = "Storico non disponibile: %@";
-"Hover for speed · pauses are gaps, not elapsed time" = "Passa sul grafico · le pause sono interruzioni";
+"Hover for speed · pauses excluded" = "Passa sul grafico · pause escluse";
 "Hover to explore" = "Passa il cursore per esplorare";
 "JSON…" = "JSON…";
 "Keep Speeder.app in Applications before enabling this option." = "Sposta Speeder.app in Applicazioni prima di attivare questa opzione.";
@@ -111,7 +111,7 @@
 "Type in any app to see your speed over time." = "Scrivi in qualsiasi app per vedere la tua velocità.";
 "Typing goal" = "Obiettivo di scrittura";
 "Typing now" = "Stai scrivendo";
-"Typing speed. Pauses appear as breaks; hover for WPM and actual time." = "Velocità di scrittura. Le pause sono interruzioni; passa il cursore per WPM e ora effettiva.";
+"Typing speed. Pauses are excluded; hover for WPM and actual time." = "Velocità di scrittura. Le pause sono escluse; passa il cursore per WPM e ora effettiva.";
 "Typing time" = "Tempo di scrittura";
 "WELCOME TO SPEEDER" = "BENVENUTO IN SPEEDER";
 "WPM" = "WPM";

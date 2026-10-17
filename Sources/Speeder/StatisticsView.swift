@@ -6,6 +6,7 @@ struct DailyActivity: Identifiable {
     let date: Date
     var total: ActivityMinute
     var id: Date { date }
+    var chartDay: String { date.formatted(date: .abbreviated, time: .omitted) }
 
     static func aggregate(_ rows: [ActivityMinute], calendar: Calendar = .current) -> [DailyActivity] {
         var days: [Date: ActivityMinute] = [:]
@@ -75,17 +76,23 @@ struct StatisticsView: View {
                         }.frame(maxWidth: .infinity).frame(height: 190)
                     } else {
                         Chart(activity) { day in
-                            BarMark(x: .value(L("Day"), day.date, unit: .day), y: .value(L("Words"), day.total.words))
+                            BarMark(x: .value(L("Day"), day.chartDay), y: .value(L("Words"), day.total.words))
                                 .foregroundStyle(accent.gradient).cornerRadius(3)
                         }.frame(height: 190)
+                        .chartXAxis {
+                            AxisMarks(values: stride(from: 0, to: activity.count, by: max(1, (activity.count + 4) / 5)).map { activity[$0].chartDay }) {
+                                AxisGridLine()
+                                AxisValueLabel(anchor: .topLeading)
+                            }
+                        }
                         .chartOverlay { proxy in
                             GeometryReader { geometry in
                                 Color.clear.contentShape(Rectangle()).onContinuousHover { phase in
                                     switch phase {
                                     case .active(let location):
                                         let plot = geometry[proxy.plotAreaFrame]
-                                        if plot.contains(location), let date: Date = proxy.value(atX: location.x - plot.minX) {
-                                            hovered = activity.first { Calendar.current.isDate($0.date, inSameDayAs: date) }
+                                        if plot.contains(location), let day: String = proxy.value(atX: location.x - plot.minX) {
+                                            hovered = activity.first { $0.chartDay == day }
                                         } else { hovered = nil }
                                     case .ended: hovered = nil
                                     }

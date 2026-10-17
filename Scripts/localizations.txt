@@ -35,7 +35,7 @@ Resume|Riprendi|Reprendre|Reanudar|Fortsetzen
 Pause|Pausa|Pause|Pausar|Pause
 CURRENT PACE|RITMO ATTUALE|RYTHME ACTUEL|RITMO ACTUAL|AKTUELLES TEMPO
 Recent rhythm|Ritmo recente|Rythme récent|Ritmo reciente|Letzter Verlauf
-Hover for speed · pauses are gaps, not elapsed time|Passa sul grafico · le pause sono interruzioni|Survolez le graphique · les pauses sont des coupures|Pasa el cursor · las pausas son interrupciones|Maus bewegen · Pausen erscheinen als Lücken
+Hover for speed · pauses excluded|Passa sul grafico · pause escluse|Survolez le graphique · pauses exclues|Pasa el cursor · pausas excluidas|Maus bewegen · Pausen ausgeschlossen
 Session average|Media sessione|Moyenne de session|Media de sesión|Sitzungsdurchschnitt
 Session peak|Picco sessione|Maximum de session|Máximo de sesión|Sitzungsspitze
 Current burst|Tratto attuale|Séquence actuelle|Racha actual|Aktuelle Tippserie
@@ -88,7 +88,7 @@ Stored locally as minute summaries. Exports include the complete history, regard
 Data export|Esportazione dati|Export des données|Exportación de datos|Datenexport
 Your rhythm starts here|Il tuo ritmo inizia qui|Votre rythme commence ici|Tu ritmo empieza aquí|Dein Rhythmus beginnt hier
 Type in any app to see your speed over time.|Scrivi in qualsiasi app per vedere la tua velocità.|Écrivez dans une app pour voir votre vitesse évoluer.|Escribe en cualquier app para ver tu velocidad.|Tippe in einer beliebigen App, um deinen Verlauf zu sehen.
-Typing speed. Pauses appear as breaks; hover for WPM and actual time.|Velocità di scrittura. Le pause sono interruzioni; passa il cursore per WPM e ora effettiva.|Vitesse de frappe. Les pauses sont des coupures ; survolez pour voir les WPM et l’heure réelle.|Velocidad de escritura. Las pausas son interrupciones; pasa el cursor para ver WPM y la hora real.|Tippgeschwindigkeit. Pausen erscheinen als Lücken; bewege die Maus für WPM und Uhrzeit.
+Typing speed. Pauses are excluded; hover for WPM and actual time.|Velocità di scrittura. Le pause sono escluse; passa il cursore per WPM e ora effettiva.|Vitesse de frappe. Les pauses sont exclues ; survolez pour voir les WPM et l’heure réelle.|Velocidad de escritura. Las pausas están excluidas; pasa el cursor para ver WPM y la hora real.|Tippgeschwindigkeit. Pausen sind ausgeschlossen; bewege die Maus für WPM und Uhrzeit.
 WELCOME TO SPEEDER|BENVENUTO IN SPEEDER|BIENVENUE DANS SPEEDER|TE DAMOS LA BIENVENIDA A SPEEDER|WILLKOMMEN BEI SPEEDER
 Get to know your rhythm.|Scopri il tuo ritmo.|Découvrez votre rythme.|Descubre tu ritmo.|Lerne deinen Rhythmus kennen.
 Your words stay yours.|Le tue parole restano tue.|Vos mots restent les vôtres.|Tus palabras siguen siendo tuyas.|Deine Worte bleiben deine.

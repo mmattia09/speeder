@@ -76,9 +76,9 @@ regardless of the selected date range.
 
 The **Session** page has the live speed graph, goal reference, burst and session
 metrics. Hover over either speed graph to see WPM and the actual sample time.
-Pauses are compressed into small breaks between separate lines, so a coffee
-break never produces a long diagonal. The horizontal axis represents typing
-progress, not elapsed wall-clock time.
+Pauses take no space on the speed graphs: typing runs join on an active-time
+axis, while hover details retain the actual timestamps. Daily activity uses
+equally spaced recorded days, omitting days without activity.
 
 The menu-bar number averages batches of five keystroke rates. A partial batch
 is shown after 1.5 seconds of inactivity. The graphs and session metrics retain
@@ -153,8 +153,8 @@ history sampling, long sessions, clock changes and key classification.
   the rebuilt app and relaunch it. Keep the app in a stable location.
 - **Password fields:** macOS Secure Input can prevent global capture. Speeder
   does not bypass it.
-- **History and averages:** history samples are collected during typing; pauses are compressed into
-  breaks. Hover to inspect the actual sample time. Average counts completed words;
+- **History and averages:** history samples are collected during typing; pauses are excluded from
+  the horizontal axis. Hover to inspect the actual sample time. Average counts completed words;
   Current uses five characters per word and subtracts deletions. They can differ.
 
 ### Interface previews

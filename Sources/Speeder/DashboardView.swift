@@ -97,7 +97,7 @@ struct DashboardView: View {
                     HStack {
                         Text("Recent rhythm").fontWeight(.medium)
                         Spacer()
-                        Text("Hover for speed · pauses are gaps, not elapsed time")
+                        Text("Hover for speed · pauses excluded")
                     }.font(.system(size: 10)).foregroundStyle(.secondary)
                 }
             }

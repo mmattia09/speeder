@@ -48,7 +48,7 @@ struct SpeedChart: View {
     private var samples: [ChartSample] { ChartTimeline.samples(points) }
 
     var body: some View {
-        if points.isEmpty {
+        if samples.isEmpty {
             VStack(spacing: 8) {
                 Image(systemName: "waveform.path").font(.system(size: compact ? 20 : 28)).foregroundStyle(accent.opacity(0.7))
                 Text("Your rhythm starts here").font(.system(size: compact ? 11 : 14, weight: .medium))
@@ -57,9 +57,9 @@ struct SpeedChart: View {
         } else {
             Chart {
                 ForEach(samples) { sample in
-                    AreaMark(x: .value(L("Typing time"), sample.x), y: .value(L("WPM"), sample.point.wpm), series: .value(L("Burst"), sample.series), stacking: .unstacked)
+                    AreaMark(x: .value(L("Typing time"), sample.x), y: .value(L("WPM"), sample.point.wpm), stacking: .unstacked)
                         .foregroundStyle(LinearGradient(colors: [accent.opacity(0.2), accent.opacity(0.01)], startPoint: .top, endPoint: .bottom))
-                    LineMark(x: .value(L("Typing time"), sample.x), y: .value(L("WPM"), sample.point.wpm), series: .value(L("Burst"), sample.series))
+                    LineMark(x: .value(L("Typing time"), sample.x), y: .value(L("WPM"), sample.point.wpm))
                         .foregroundStyle(accent).lineStyle(StrokeStyle(lineWidth: compact ? 1.5 : 2, lineCap: .round))
                     PointMark(x: .value(L("Typing time"), sample.x), y: .value(L("WPM"), sample.point.wpm))
                         .foregroundStyle(accent).symbolSize(4)
@@ -104,7 +104,7 @@ struct SpeedChart: View {
             .onChange(of: points) { points in
                 if let id = selected?.id { selected = samples.first { $0.id == id } }
             }
-            .accessibilityLabel("Typing speed. Pauses appear as breaks; hover for WPM and actual time.")
+            .accessibilityLabel("Typing speed. Pauses are excluded; hover for WPM and actual time.")
         }
     }
 }

@@ -54,16 +54,40 @@ struct StatisticsTests {
         #expect(abs(days[0].total.averageWPM - 70.0 * 60 / 90) < 0.001)
     }
 
-    @Test func chartCompressesPausesWithoutJoiningBursts() {
+    @Test func chartRemovesPauseTimeAndKeepsRealTimestamps() {
         let points = [WPMHistoryPoint(date: Date(timeIntervalSince1970: 0), wpm: 30),
                       WPMHistoryPoint(date: Date(timeIntervalSince1970: 1), wpm: 60),
-                      WPMHistoryPoint(date: Date(timeIntervalSince1970: 600), wpm: 40, segment: 1)]
+                      WPMHistoryPoint(date: Date(timeIntervalSince1970: 600), wpm: 40, segment: 1),
+                      WPMHistoryPoint(date: Date(timeIntervalSince1970: 601), wpm: 50, segment: 1)]
         let samples = ChartTimeline.samples(points)
-        #expect(samples.last?.x == 2.5)
-        #expect(samples[1].series != samples[2].series)
-        #expect(ChartTimeline.nearest(to: 1, in: samples)?.point.wpm == 60)
-        #expect(ChartTimeline.nearest(to: 1.7, in: samples) == nil)
+        #expect(samples.map(\.x) == [0, 1, 1, 2])
+        #expect(samples.map(\.point) == points)
+        #expect(ChartTimeline.nearest(to: 1, in: samples)?.point.wpm == 40)
+        #expect(ChartTimeline.nearest(to: 1.7, in: samples)?.point.wpm == 50)
         #expect(ChartTimeline.nearest(to: -1, in: samples) == nil)
+        #expect(ChartTimeline.nearest(to: 3, in: samples) == nil)
+    }
+
+    @Test func chartRemovesExplicitAndImplicitPauses() {
+        let points = [WPMHistoryPoint(date: Date(timeIntervalSince1970: 0), wpm: 30),
+                      WPMHistoryPoint(date: Date(timeIntervalSince1970: 0.5), wpm: 60, segment: 1),
+                      WPMHistoryPoint(date: Date(timeIntervalSince1970: 900), wpm: 40, segment: 1)]
+        let samples = ChartTimeline.samples(points)
+        #expect(samples.map(\.x) == [0, 0, 0])
+        #expect(ChartTimeline.nearest(to: 0, in: samples)?.point.wpm == 40)
+        #expect(ChartTimeline.samples([]).isEmpty)
+        #expect(ChartTimeline.nearest(to: 0, in: []) == nil)
+    }
+
+    @Test func chartOmitsWarmupZerosButKeepsMeasuredZeros() {
+        let points = [WPMHistoryPoint(date: Date(timeIntervalSince1970: 0), wpm: 0),
+                      WPMHistoryPoint(date: Date(timeIntervalSince1970: 1), wpm: 60),
+                      WPMHistoryPoint(date: Date(timeIntervalSince1970: 2), wpm: 0),
+                      WPMHistoryPoint(date: Date(timeIntervalSince1970: 600), wpm: 0, segment: 1),
+                      WPMHistoryPoint(date: Date(timeIntervalSince1970: 601), wpm: 40, segment: 1)]
+        let samples = ChartTimeline.samples(points)
+        #expect(samples.map(\.point.wpm) == [60, 0, 40])
+        #expect(samples.map(\.x) == [0, 1, 1])
     }
 
     @Test @MainActor func resettingSessionKeepsLongTermHistory() throws {
