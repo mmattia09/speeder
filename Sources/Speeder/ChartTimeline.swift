@@ -16,15 +16,20 @@ enum ChartTimeline {
                 || point.date.timeIntervalSince(points[index - 1].date) > 2.5
             return startsBurst && point.wpm == 0 ? nil : point
         }
+        // Join runs with one ordinary sample step, never with the pause duration
+        // or a duplicate x coordinate (which would draw a vertical stroke).
+        let steps = zip(points, points.dropFirst()).compactMap { previous, next -> Double? in
+            let gap = next.date.timeIntervalSince(previous.date)
+            return next.segment == previous.segment && gap > 0 && gap <= 2.5 ? gap : nil
+        }.sorted()
+        let joinStep = steps.isEmpty ? 1 : steps[steps.count / 2]
         var x = 0.0
         return points.enumerated().map { index, point in
             if index > 0 {
                 let previous = points[index - 1]
                 let gap = point.date.timeIntervalSince(previous.date)
                 let paused = point.segment != previous.segment || gap > 2.5
-                // Pause boundaries share the same active-time coordinate.
-                // Keep both measured rates, without allocating time to inactivity.
-                if !paused { x += max(0, gap) }
+                x += paused || gap <= 0 ? joinStep : gap
             }
             return ChartSample(point: point, x: x)
         }
@@ -32,7 +37,6 @@ enum ChartTimeline {
 
     static func nearest(to x: Double, in samples: [ChartSample]) -> ChartSample? {
         guard let first = samples.first, let last = samples.last, x >= first.x, x <= last.x else { return nil }
-        // At a shared boundary prefer the sample after the pause.
         return samples.reversed().min { abs($0.x - x) < abs($1.x - x) }
     }
 }

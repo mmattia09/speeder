@@ -76,8 +76,9 @@ regardless of the selected date range.
 
 The **Session** page has the live speed graph, goal reference, burst and session
 metrics. Hover over either speed graph to see WPM and the actual sample time.
-Pauses take no space on the speed graphs: typing runs join on an active-time
-axis, while hover details retain the actual timestamps. Daily activity uses
+Pause durations are excluded from the speed graphs: typing runs join with one
+normal sample step to avoid vertical strokes. Hover details follow the selection
+and retain the actual timestamps. Daily activity uses
 equally spaced recorded days, omitting days without activity.
 
 The menu-bar number averages batches of five keystroke rates. A partial batch

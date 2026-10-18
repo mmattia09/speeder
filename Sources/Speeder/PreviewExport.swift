@@ -39,6 +39,11 @@ enum PreviewExport {
         let statusItem = StatusItemController(store: store, mainWindow: mainWindow)
         statusItem.install()
         try statusItem.validatePopoverBounds()
+        let chartSamples = ChartTimeline.samples(store.history)
+        for index in [0, chartSamples.count / 2, chartSamples.count - 1] where chartSamples.indices.contains(index) {
+            try save(SpeedChart(points: store.history, selected: chartSamples[index]).frame(width: 640, height: 200).padding(20),
+                     scheme: .light, to: url.appendingPathComponent("hover-\(index).png"))
+        }
         let route = WindowRoute()
         for scheme in [ColorScheme.light, .dark] {
             let suffix = scheme == .light ? "light" : "dark"

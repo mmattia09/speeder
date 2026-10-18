@@ -60,12 +60,12 @@ struct StatisticsTests {
                       WPMHistoryPoint(date: Date(timeIntervalSince1970: 600), wpm: 40, segment: 1),
                       WPMHistoryPoint(date: Date(timeIntervalSince1970: 601), wpm: 50, segment: 1)]
         let samples = ChartTimeline.samples(points)
-        #expect(samples.map(\.x) == [0, 1, 1, 2])
+        #expect(samples.map(\.x) == [0, 1, 2, 3])
         #expect(samples.map(\.point) == points)
-        #expect(ChartTimeline.nearest(to: 1, in: samples)?.point.wpm == 40)
-        #expect(ChartTimeline.nearest(to: 1.7, in: samples)?.point.wpm == 50)
+        #expect(ChartTimeline.nearest(to: 2, in: samples)?.point.wpm == 40)
+        #expect(ChartTimeline.nearest(to: 2.7, in: samples)?.point.wpm == 50)
         #expect(ChartTimeline.nearest(to: -1, in: samples) == nil)
-        #expect(ChartTimeline.nearest(to: 3, in: samples) == nil)
+        #expect(ChartTimeline.nearest(to: 4, in: samples) == nil)
     }
 
     @Test func chartRemovesExplicitAndImplicitPauses() {
@@ -73,8 +73,8 @@ struct StatisticsTests {
                       WPMHistoryPoint(date: Date(timeIntervalSince1970: 0.5), wpm: 60, segment: 1),
                       WPMHistoryPoint(date: Date(timeIntervalSince1970: 900), wpm: 40, segment: 1)]
         let samples = ChartTimeline.samples(points)
-        #expect(samples.map(\.x) == [0, 0, 0])
-        #expect(ChartTimeline.nearest(to: 0, in: samples)?.point.wpm == 40)
+        #expect(samples.map(\.x) == [0, 1, 2])
+        #expect(ChartTimeline.nearest(to: 2, in: samples)?.point.wpm == 40)
         #expect(ChartTimeline.samples([]).isEmpty)
         #expect(ChartTimeline.nearest(to: 0, in: []) == nil)
     }
@@ -87,7 +87,17 @@ struct StatisticsTests {
                       WPMHistoryPoint(date: Date(timeIntervalSince1970: 601), wpm: 40, segment: 1)]
         let samples = ChartTimeline.samples(points)
         #expect(samples.map(\.point.wpm) == [60, 0, 40])
-        #expect(samples.map(\.x) == [0, 1, 1])
+        #expect(samples.map(\.x) == [0, 1, 2])
+    }
+
+    @Test func chartCoordinatesIncreaseEvenForEqualTimestamps() {
+        let date = Date(timeIntervalSince1970: 100)
+        let points = [WPMHistoryPoint(date: date, wpm: 40),
+                      WPMHistoryPoint(date: date, wpm: 80),
+                      WPMHistoryPoint(date: date.addingTimeInterval(1000), wpm: 20, segment: 1)]
+        let samples = ChartTimeline.samples(points)
+        #expect(zip(samples, samples.dropFirst()).allSatisfy { $0.x < $1.x })
+        #expect(samples.map(\.point) == points)
     }
 
     @Test @MainActor func resettingSessionKeepsLongTermHistory() throws {

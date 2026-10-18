@@ -44,7 +44,7 @@ struct SpeedChart: View {
     let points: [WPMHistoryPoint]
     var compact = false
     var goal: Double? = nil
-    @State private var selected: ChartSample?
+    @State var selected: ChartSample?
     private var samples: [ChartSample] { ChartTimeline.samples(points) }
 
     var body: some View {
@@ -80,25 +80,30 @@ struct SpeedChart: View {
             .chartYAxis(compact ? .hidden : .automatic)
             .chartOverlay { proxy in
                 GeometryReader { geometry in
-                    Color.clear.contentShape(Rectangle()).onContinuousHover { phase in
-                        switch phase {
-                        case .active(let location):
-                            let plot = geometry[proxy.plotAreaFrame]
-                            guard plot.contains(location), let x: Double = proxy.value(atX: location.x - plot.minX) else { selected = nil; return }
-                            selected = ChartTimeline.nearest(to: x, in: samples)
-                        case .ended: selected = nil
+                    let plot = geometry[proxy.plotAreaFrame]
+                    ZStack(alignment: .topLeading) {
+                        Color.clear.contentShape(Rectangle()).onContinuousHover { phase in
+                            switch phase {
+                            case .active(let location):
+                                guard plot.contains(location), let x: Double = proxy.value(atX: location.x - plot.minX) else { selected = nil; return }
+                                selected = ChartTimeline.nearest(to: x, in: samples)
+                            case .ended: selected = nil
+                            }
+                        }
+                        if let selected, let position = proxy.position(forX: selected.x) {
+                            let width: CGFloat = compact ? 112 : 132
+                            HStack(spacing: 6) {
+                                Text("\(WPMFormatter.string(selected.point.wpm)) wpm").fontWeight(.semibold)
+                                Text(selected.point.date, style: .time).foregroundStyle(.secondary)
+                            }
+                            .font(.system(size: compact ? 10 : 12))
+                            .frame(width: width, height: 26)
+                            .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 6))
+                            .position(x: min(max(plot.minX + position, plot.minX + width / 2), plot.maxX - width / 2),
+                                      y: plot.minY + 13)
+                            .allowsHitTesting(false)
                         }
                     }
-                }
-            }
-            .overlay(alignment: .topLeading) {
-                if let selected {
-                    HStack(spacing: 6) {
-                        Text("\(WPMFormatter.string(selected.point.wpm)) wpm").fontWeight(.semibold)
-                        Text(selected.point.date, style: .time).foregroundStyle(.secondary)
-                    }.font(.system(size: compact ? 10 : 12)).padding(6)
-                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 6))
-                        .allowsHitTesting(false)
                 }
             }
             .onChange(of: points) { points in
