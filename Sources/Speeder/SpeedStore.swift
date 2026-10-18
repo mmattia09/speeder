@@ -153,6 +153,21 @@ final class SpeedStore: ObservableObject {
         } catch { exportMessage = L("Export failed: %@", error.localizedDescription) }
     }
 
+    func importStatistics() {
+        guard let archive else { exportMessage = L("The history database is unavailable."); return }
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.json, .commaSeparatedText]
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = false
+        panel.message = L("Import a Speeder export. Existing minutes are kept and duplicates are skipped.")
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+        do {
+            let result = try archive.importData(Data(contentsOf: url), csv: url.pathExtension.lowercased() == "csv")
+            archiveRows = try archive.rows()
+            exportMessage = L("Imported %lld minutes. Skipped %lld existing minutes.", result.added, result.skipped)
+        } catch { exportMessage = L("Import failed: %@", error.localizedDescription) }
+    }
+
     func stop() {
         saveArchive()
         timer?.invalidate()

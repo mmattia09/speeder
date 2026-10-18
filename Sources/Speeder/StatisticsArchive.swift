@@ -126,6 +126,64 @@ final class StatisticsArchive {
         return try encoder.encode(Export(minutes: values))
     }
 
+    struct ImportResult { let added: Int; let skipped: Int }
+
+    func importData(_ data: Data, csv: Bool) throws -> ImportResult {
+        func invalid() -> NSError {
+            NSError(domain: "Speeder.Import", code: 1, userInfo: [NSLocalizedDescriptionKey: L("Invalid statistics file.")])
+        }
+        let values: [ActivityMinute]
+        if csv {
+            guard let text = String(data: data, encoding: .utf8) else { throw invalid() }
+            let lines = text.components(separatedBy: .newlines).filter { !$0.isEmpty }
+            guard lines.first == "minute_utc,words,keystrokes,active_seconds,peak_wpm,rate_sum,samples" else { throw invalid() }
+            let formatter = ISO8601DateFormatter()
+            values = try lines.dropFirst().map { line in
+                let fields = line.split(separator: ",", omittingEmptySubsequences: false).map(String.init)
+                guard fields.count == 7, let date = formatter.date(from: fields[0]),
+                      date.timeIntervalSince1970 >= 0, date.timeIntervalSince1970 < 253402300800,
+                      let words = Int(fields[1]), let keys = Int(fields[2]), let active = Double(fields[3]),
+                      let peak = Double(fields[4]), let rate = Double(fields[5]), let samples = Int(fields[6]) else { throw invalid() }
+                return ActivityMinute(minute: Int64(date.timeIntervalSince1970), words: words, keystrokes: keys,
+                                      activeSeconds: active, peakWPM: peak, rateSum: rate, samples: samples)
+            }
+        } else {
+            struct Document: Decodable { let schemaVersion: Int; let minutes: [ActivityMinute] }
+            let document = try JSONDecoder().decode(Document.self, from: data)
+            guard document.schemaVersion == 1 else { throw invalid() }
+            values = document.minutes
+        }
+        var seen = Set<Int64>()
+        for row in values {
+            guard row.minute >= 0, row.minute < 253402300800, row.minute % 60 == 0,
+                  seen.insert(row.minute).inserted,
+                  [row.words, row.keystrokes, row.samples].allSatisfy({ $0 >= 0 && $0 <= 1_000_000_000 }),
+                  [row.activeSeconds, row.peakWPM, row.rateSum].allSatisfy({ $0.isFinite && $0 >= 0 && $0 <= 1_000_000_000 }) else { throw invalid() }
+        }
+        try flush()
+        try execute("BEGIN IMMEDIATE")
+        do {
+            var statement: OpaquePointer?
+            guard sqlite3_prepare_v2(database, "INSERT OR IGNORE INTO minutes VALUES (?, ?, ?, ?, ?, ?, ?)", -1, &statement, nil) == SQLITE_OK else { throw failure() }
+            defer { sqlite3_finalize(statement) }
+            var added = 0
+            for row in values {
+                sqlite3_bind_int64(statement, 1, row.minute)
+                sqlite3_bind_int64(statement, 2, Int64(row.words))
+                sqlite3_bind_int64(statement, 3, Int64(row.keystrokes))
+                sqlite3_bind_double(statement, 4, row.activeSeconds)
+                sqlite3_bind_double(statement, 5, row.peakWPM)
+                sqlite3_bind_double(statement, 6, row.rateSum)
+                sqlite3_bind_int64(statement, 7, Int64(row.samples))
+                guard sqlite3_step(statement) == SQLITE_DONE else { throw failure() }
+                added += Int(sqlite3_changes(database))
+                sqlite3_reset(statement)
+            }
+            try execute("COMMIT")
+            return ImportResult(added: added, skipped: values.count - added)
+        } catch { try? execute("ROLLBACK"); throw error }
+    }
+
     private func execute(_ sql: String) throws {
         guard sqlite3_exec(database, sql, nil, nil, nil) == SQLITE_OK else { throw failure() }
     }

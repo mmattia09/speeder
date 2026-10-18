@@ -27,7 +27,7 @@ enum PreviewExport {
         let archive = try StatisticsArchive(url: scratch.appendingPathComponent("preview.sqlite"))
         for day in 0..<30 {
             for minute in 0..<30 + day % 15 {
-                let date = Calendar.current.date(byAdding: .day, value: -day, to: Calendar.current.startOfDay(for: Date()))!.addingTimeInterval(Double(600 + minute) * 60)
+                let date = Calendar.current.date(byAdding: .day, value: -day, to: Calendar.current.startOfDay(for: Date()))!.addingTimeInterval(Double(480 + (day % 10) * 60 + minute) * 60)
                 archive.record(at: date, words: 30 + day % 25, keystrokes: 180 + day % 100, activeSeconds: 45,
                                peak: Double(70 + day % 30), sample: Double(40 + day % 25))
             }
@@ -48,6 +48,7 @@ enum PreviewExport {
         for scheme in [ColorScheme.light, .dark] {
             let suffix = scheme == .light ? "light" : "dark"
             try save(DashboardView(store: store, preferences: preferences, route: route).frame(width: 900, height: 740), scheme: scheme, to: url.appendingPathComponent("session-\(suffix).png"))
+            try save(StatisticsView(store: store).padding(28).frame(width: 728).background(Color(nsColor: .windowBackgroundColor)), scheme: scheme, to: url.appendingPathComponent("statistics-full-\(suffix).png"))
             route.page = .statistics
             try save(DashboardView(store: store, preferences: preferences, route: route).frame(width: 900, height: 740), scheme: scheme, to: url.appendingPathComponent("statistics-\(suffix).png"))
             route.page = .settings

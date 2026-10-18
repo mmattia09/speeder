@@ -51,7 +51,7 @@ struct SpeedChart: View {
         if samples.isEmpty {
             VStack(spacing: 8) {
                 Image(systemName: "waveform.path").font(.system(size: compact ? 20 : 28)).foregroundStyle(accent.opacity(0.7))
-                Text("Your rhythm starts here").font(.system(size: compact ? 11 : 14, weight: .medium))
+                Text("No recorded activity").font(.system(size: compact ? 11 : 14, weight: .medium))
                 if !compact { Text("Type in any app to see your speed over time.").font(.system(size: 12)).foregroundStyle(.secondary) }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {

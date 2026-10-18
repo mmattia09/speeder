@@ -70,7 +70,7 @@ PRIVACY & ACCESS|PRIVACY E ACCESSO|CONFIDENTIALITÉ ET ACCÈS|PRIVACIDAD Y ACCES
 Accessibility Settings…|Impostazioni Accessibilità…|Réglages d’accessibilité…|Ajustes de Accesibilidad…|Bedienungshilfen…
 Speeder classifies keystrokes and immediately discards their text. Numeric minute summaries are saved locally for long-term statistics and export. No uploads, no saved text, no account.|Speeder classifica i tasti e scarta subito il testo. Salva riepiloghi numerici al minuto sul Mac per lo storico e l’esportazione. Nessun caricamento, testo salvato o account.|Speeder classe les frappes et supprime immédiatement leur texte. Des résumés numériques par minute sont enregistrés localement pour l’historique et l’export. Aucun envoi, texte enregistré ou compte.|Speeder clasifica las pulsaciones y descarta su texto al instante. Guarda resúmenes numéricos por minuto en el Mac para el historial y la exportación. Sin subidas, texto guardado ni cuentas.|Speeder ordnet Tastenanschläge ein und verwirft ihren Text sofort. Numerische Minutenwerte werden lokal für Verlauf und Export gespeichert. Keine Uploads, gespeicherten Texte oder Konten.
 Show introduction again|Mostra di nuovo l’introduzione|Revoir la présentation|Ver la introducción de nuevo|Einführung erneut anzeigen
-Speeder 0.2.1 · Built for macOS|Speeder 0.2.1 · Creato per macOS|Speeder 0.2.1 · Conçu pour macOS|Speeder 0.2.1 · Creado para macOS|Speeder 0.2.1 · Für macOS entwickelt
+Speeder 0.3.0 · Built for macOS|Speeder 0.3.0 · Creato per macOS|Speeder 0.3.0 · Conçu pour macOS|Speeder 0.3.0 · Creado para macOS|Speeder 0.3.0 · Für macOS entwickelt
 The bigger picture.|Uno sguardo d’insieme.|Une vue d’ensemble.|Una visión más amplia.|Der große Überblick.
 Your rhythm over days, weeks and months.|Il tuo ritmo, giorno dopo giorno.|Votre rythme au fil des jours, semaines et mois.|Tu ritmo a lo largo de días, semanas y meses.|Dein Rhythmus über Tage, Wochen und Monate.
 Export all data|Esporta tutti i dati|Exporter toutes les données|Exportar todos los datos|Alle Daten exportieren
@@ -117,3 +117,20 @@ Burst|Tratto|Séquence|Racha|Tippserie
 Goal|Obiettivo|Objectif|Objetivo|Ziel
 Selected|Selezione|Sélection|Selección|Auswahl
 Day|Giorno|Jour|Día|Tag
+Import…|Importa…|Importer…|Importar…|Importieren…
+90 days|90 giorni|90 jours|90 días|90 Tage
+Activity by hour|Attività per ora|Activité par heure|Actividad por hora|Aktivität nach Uhrzeit
+Active minutes · local time|Minuti attivi · ora locale|Minutes actives · heure locale|Minutos activos · hora local|Aktive Minuten · Ortszeit
+Hour|Ora|Heure|Hora|Stunde
+No recorded activity|Nessuna attività registrata|Aucune activité enregistrée|Sin actividad registrada|Keine Aktivität erfasst
+Type in any app or import a Speeder export.|Scrivi in un’app o importa un export di Speeder.|Écrivez dans une app ou importez un export Speeder.|Escribe en una app o importa una exportación de Speeder.|Tippe in einer App oder importiere einen Speeder-Export.
+Invalid statistics file.|File delle statistiche non valido.|Fichier de statistiques non valide.|Archivo de estadísticas no válido.|Ungültige Statistikdatei.
+Import a Speeder export. Existing minutes are kept and duplicates are skipped.|Importa un export di Speeder. I minuti esistenti vengono conservati e i duplicati saltati.|Importez un export Speeder. Les minutes existantes sont conservées et les doublons ignorés.|Importa una exportación de Speeder. Se conservan los minutos existentes y se omiten los duplicados.|Importiere einen Speeder-Export. Vorhandene Minuten bleiben erhalten, Duplikate werden übersprungen.
+Imported %lld minutes. Skipped %lld existing minutes.|Importati %lld minuti. Saltati %lld minuti già presenti.|%lld minutes importées. %lld minutes existantes ignorées.|%lld minutos importados. %lld minutos existentes omitidos.|%lld Minuten importiert. %lld vorhandene Minuten übersprungen.
+Import failed: %@|Importazione non riuscita: %@|Échec de l’importation : %@|Error de importación: %@|Import fehlgeschlagen: %@
+Typing speed|Velocità di scrittura|Vitesse de frappe|Velocidad de escritura|Tippgeschwindigkeit
+Accessibility|Accessibilità|Accessibilité|Accesibilidad|Bedienungshilfen
+Menu bar|Barra dei menu|Barre des menus|Barra de menús|Menüleiste
+Done|Fine|Terminer|Listo|Fertig
+Speeder shows your typing speed in the menu bar and saves numeric statistics.|Speeder mostra la velocità di scrittura nella barra dei menu e salva statistiche numeriche.|Speeder affiche votre vitesse de frappe dans la barre des menus et enregistre des statistiques numériques.|Speeder muestra la velocidad de escritura en la barra de menús y guarda estadísticas numéricas.|Speeder zeigt die Tippgeschwindigkeit in der Menüleiste und speichert numerische Statistiken.
+Active time|Tempo attivo|Temps actif|Tiempo activo|Aktive Zeit

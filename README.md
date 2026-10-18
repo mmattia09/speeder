@@ -1,5 +1,7 @@
 # Speeder
 
+[![Download DMG](https://img.shields.io/badge/Download_macOS-DMG-1F9E7D?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/mmattia09/speeder/releases/latest/download/Speeder.dmg)
+
 [![CI](https://img.shields.io/github/actions/workflow/status/mmattia09/speeder/ci.yml?branch=main&label=CI&style=for-the-badge)](https://github.com/mmattia09/speeder/actions/workflows/ci.yml)
 [![macOS 13+](https://img.shields.io/badge/macOS-13%2B-black?style=for-the-badge)](https://github.com/mmattia09/speeder)
 [![Swift 6](https://img.shields.io/badge/Swift-6-F05138?style=for-the-badge)](Package.swift)
@@ -45,9 +47,8 @@ requests or telemetry. Quitting clears the live session but keeps the history.
 
 ## Install
 
-Download **Speeder-0.2.1-macos-universal.zip** from the
-[latest release](https://github.com/mmattia09/speeder/releases/latest), unzip it,
-and move Speeder.app to Applications. It runs on Apple Silicon and Intel Macs
+Download [**Speeder.dmg**](https://github.com/mmattia09/speeder/releases/latest/download/Speeder.dmg),
+open it, and drag Speeder.app to Applications. It runs on Apple Silicon and Intel Macs
 with macOS 13 or later. The app is ad-hoc signed and not notarized, so Gatekeeper
 may warn when you first open it.
 
@@ -211,3 +212,24 @@ Made by [@mmattia09](https://github.com/mmattia09). Developed with the help of
 ## License
 
 [MIT](LICENSE).
+
+## Import and backups
+
+Use **Import…** in Statistics to restore a Speeder JSON or CSV export. Imports
+add missing minute records; existing minutes are kept unchanged, including
+pending local activity. Importing the same backup again does not double counts.
+Overlapping records from two Macs are not added together. Invalid files are
+rejected before any imported record is written. Keep an export before moving Macs.
+
+Statistics includes daily words, average WPM, active time, activity by local hour,
+and a daily table. All charts follow the selected 7/30/90-day or all-time range.
+
+## Build a disk image
+
+```sh
+Scripts/build-app.sh release universal
+Scripts/build-dmg.sh
+```
+
+The verified disk image is written to `dist/Speeder.dmg`. It contains the app
+and an Applications shortcut. Packaging as DMG does not add Apple notarization.

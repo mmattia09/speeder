@@ -42,10 +42,6 @@ struct DashboardView: View {
                     }
                 }
                 Spacer()
-                VStack(alignment: .leading, spacing: 7) {
-                    Label("Made for your rhythm", systemImage: "leaf")
-                    Text("Private. Local. In the moment.").font(.system(size: 10))
-                }.font(.system(size: 11)).foregroundStyle(.secondary)
             }.padding(18).frame(width: 172).frame(maxHeight: .infinity)
                 .background(.ultraThinMaterial)
             Divider()
@@ -72,8 +68,7 @@ struct DashboardView: View {
         Group {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Your typing, in focus.").font(.system(size: 25, weight: .semibold, design: .rounded))
-                    Text("A little insight into the way you work.").font(.system(size: 12)).foregroundStyle(.secondary)
+                    Text("Session").font(.system(size: 25, weight: .semibold, design: .rounded))
                 }
                 Spacer()
                 Button(action: store.togglePaused) {
@@ -109,7 +104,7 @@ struct DashboardView: View {
             HStack(alignment: .top, spacing: 12) {
                 Surface {
                     VStack(alignment: .leading, spacing: 16) {
-                        Text("The session so far").font(.system(size: 13, weight: .semibold))
+                        Text("Session").font(.system(size: 13, weight: .semibold))
                         detail("Words completed", value: "\(store.stats.totalWords)")
                         detail("Keystrokes", value: "\(store.stats.totalKeystrokes)")
                         detail("Time spent typing", value: WPMFormatter.duration(store.stats.activeDuration))
@@ -117,7 +112,7 @@ struct DashboardView: View {
                 }
                 Surface {
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Find your pace").font(.system(size: 13, weight: .semibold))
+                        Text("Typing goal").font(.system(size: 13, weight: .semibold))
                         HStack(alignment: .firstTextBaseline) {
                             Text("\(Int(preferences.goal))").font(.system(size: 28, weight: .light, design: .rounded))
                             Text("wpm goal").font(.system(size: 11)).foregroundStyle(.secondary)
@@ -137,7 +132,6 @@ struct DashboardView: View {
                 }
             }
             HStack {
-                Label("History is saved on this Mac.", systemImage: "lock.shield").foregroundStyle(.secondary)
                 Spacer()
                 Button("Copy stats", action: store.copyStats)
                 Button("Reset…") { confirmReset = true }
@@ -148,8 +142,7 @@ struct DashboardView: View {
     private var settings: some View {
         Group {
             VStack(alignment: .leading, spacing: 6) {
-                Text("Make it yours.").font(.system(size: 25, weight: .semibold, design: .rounded))
-                Text("Small adjustments. A rhythm that suits you.").font(.system(size: 12)).foregroundStyle(.secondary)
+                Text("Settings").font(.system(size: 25, weight: .semibold, design: .rounded))
             }
             Surface {
                 VStack(alignment: .leading, spacing: 16) {
@@ -193,11 +186,10 @@ struct DashboardView: View {
             }
             Surface {
                 VStack(alignment: .leading, spacing: 16) {
-                    sectionLabel("YOUR PACE", icon: "scope")
+                    sectionLabel("Typing goal", icon: "scope")
                     Stepper(value: $preferences.goal, in: 10...200, step: 5) {
                         HStack { Text("Typing goal"); Spacer(); Text("\(Int(preferences.goal)) wpm").monospacedDigit().foregroundStyle(.secondary) }
                     }
-                    Text("A reference line in your graph, not a limit. There is no need to rush.").font(.system(size: 11)).foregroundStyle(.secondary)
                 }.font(.system(size: 12))
             }
             Surface {
@@ -214,7 +206,7 @@ struct DashboardView: View {
                     Button("Show introduction again") { route.showsOnboarding = true }.buttonStyle(.borderless)
                 }
             }
-            Text("Speeder 0.2.1 · Built for macOS").font(.system(size: 11)).foregroundStyle(.tertiary)
+            Text("Speeder 0.3.0 · Built for macOS").font(.system(size: 11)).foregroundStyle(.tertiary)
         }
     }
 

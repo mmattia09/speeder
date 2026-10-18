@@ -30,7 +30,11 @@ jobs:
           lipo dist/Speeder.app/Contents/MacOS/Speeder -verify_arch arm64 x86_64
       - name: Package app
         run: ditto -c -k --sequesterRsrc --keepParent dist/Speeder.app dist/Speeder.zip
+      - name: Build disk image
+        run: Scripts/build-dmg.sh
       - uses: actions/upload-artifact@v4
         with:
           name: Speeder-macOS
-          path: dist/Speeder.zip
+          path: |
+            dist/Speeder.zip
+            dist/Speeder.dmg
